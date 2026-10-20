@@ -1,0 +1,1817 @@
+[
+  {
+    "menuThemeId": 0,
+    "filename": "https://yume.wiki/images/6/62/Pc_yumegamen_sys0.png",
+    "localFile": "Pc_yumegamen_sys0.png",
+    "locations": [
+      {
+        "world": null,
+        "worldText": "None",
+        "method": "Starting theme",
+        "methodJP": null,
+        "filename": null,
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 1,
+    "filename": "https://yume.wiki/images/3/3c/Pc_yumegamen_sys1.png",
+    "localFile": "Pc_yumegamen_sys1.png",
+    "locations": [
+      {
+        "world": "Urotsuki's Room",
+        "worldText": "Urotsuki's Room",
+        "method": "Default themes",
+        "methodJP": null,
+        "filename": null,
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 2,
+    "filename": "https://yume.wiki/images/1/16/Pc_yumegamen_sys2.png",
+    "localFile": "Pc_yumegamen_sys2.png",
+    "locations": [
+      {
+        "world": "Urotsuki's Room",
+        "worldText": "Urotsuki's Room",
+        "method": "Default themes",
+        "methodJP": null,
+        "filename": null,
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 3,
+    "filename": "https://yume.wiki/images/0/0d/Pc_yumegamen_sys3.png",
+    "localFile": "Pc_yumegamen_sys3.png",
+    "locations": [
+      {
+        "world": "Urotsuki's Room",
+        "worldText": "Urotsuki's Room",
+        "method": "Default themes",
+        "methodJP": null,
+        "filename": null,
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 4,
+    "filename": "https://yume.wiki/images/4/45/Pc_yumegamen_sys4.png",
+    "localFile": "Pc_yumegamen_sys4.png",
+    "locations": [
+      {
+        "world": "Urotsuki's Room",
+        "worldText": "Urotsuki's Room",
+        "method": "Default themes",
+        "methodJP": null,
+        "filename": null,
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 5,
+    "filename": "https://yume.wiki/images/b/b4/Pc_yumegamen_sys5.png",
+    "localFile": "Pc_yumegamen_sys5.png",
+    "locations": [
+      {
+        "world": "Urotsuki's Room",
+        "worldText": "Urotsuki's Room",
+        "method": "Default themes",
+        "methodJP": null,
+        "filename": null,
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 6,
+    "filename": "https://yume.wiki/images/0/04/Pc_yumegamen_sys6.png",
+    "localFile": "Pc_yumegamen_sys6.png",
+    "locations": [
+      {
+        "world": "Endings",
+        "worldText": "Bleak Future",
+        "method": "Interact with the <a href=\"https://yume.wiki/2kki/Original_Yume_2kki_Protagonist\">boy</a> in the computer.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/5/5c/2kki-comproom.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 7,
+    "filename": "https://yume.wiki/images/c/c0/Pc_yumegamen_sys7.png",
+    "localFile": "Pc_yumegamen_sys7.png",
+    "locations": [
+      {
+        "world": "Endings",
+        "worldText": "Bleak Future",
+        "method": "Interact with the <a href=\"https://yume.wiki/2kki/Original_Yume_2kki_Protagonist\">boy</a> in the computer.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/5/5c/2kki-comproom.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 8,
+    "filename": "https://yume.wiki/images/4/45/Pc_yumegamen_sys8.png",
+    "localFile": "Pc_yumegamen_sys8.png",
+    "locations": [
+      {
+        "world": "Hidden Shoal",
+        "worldText": "Hidden Shoal",
+        "method": "Interact with the cyan egg in the center of one of the formations.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/a/a5/8egg.jpg",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 9,
+    "filename": "https://yume.wiki/images/0/08/Pc_yumegamen_sys9.png",
+    "localFile": "Pc_yumegamen_sys9.png",
+    "locations": [
+      {
+        "world": "Forest Pier",
+        "worldText": "Forest Pier",
+        "method": "Interact with the indigo egg in the Southern Area, next to the giant half-buried sun statue.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/0/02/ForestPierEgg.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 10,
+    "filename": "https://yume.wiki/images/1/19/Pc_yumegamen_sys10.png",
+    "localFile": "Pc_yumegamen_sys10.png",
+    "locations": [
+      {
+        "world": "Planetarium",
+        "worldText": "Planetarium",
+        "method": "Interact with the pink egg in the scenery area.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/2/2a/Another.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 11,
+    "filename": "https://yume.wiki/images/3/3f/Pc_yumegamen_sys11.png",
+    "localFile": "Pc_yumegamen_sys11.png",
+    "locations": [
+      {
+        "world": "Industrial Maze",
+        "worldText": "Industrial Maze",
+        "method": "Interact with the orange egg in the <a href=\"https://yume.wiki/2kki/Industrial_Maze#Factory_Garden\">Factory Garden</a> .",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/f/f5/Factory_garden.jpg",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 12,
+    "filename": "https://yume.wiki/images/a/a2/Pc_yumegamen_sys12.png",
+    "localFile": "Pc_yumegamen_sys12.png",
+    "locations": [
+      {
+        "world": "Rose Church",
+        "worldText": "Rose Church",
+        "method": "Interact with the lime-green egg in the center of the main room.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/4/4e/The_elusive_egg.jpg",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 13,
+    "filename": "https://yume.wiki/images/3/39/Pc_yumegamen_sys13.png",
+    "localFile": "Pc_yumegamen_sys13.png",
+    "locations": [
+      {
+        "world": "Bioluminescent Cavern",
+        "worldText": "Bioluminescent Cavern",
+        "method": "Interact with the teal egg southwest of the entrance.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/d/d7/Swanboat.jpg",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 14,
+    "filename": "https://yume.wiki/images/4/44/Pc_yumegamen_sys14.png",
+    "localFile": "Pc_yumegamen_sys14.png",
+    "locations": [
+      {
+        "world": "Depths",
+        "worldText": "Depths",
+        "method": "Interact with the eggs in the Underwater Base and the deepest part of the Depths.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/4/4f/EggN14.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 15,
+    "filename": "https://yume.wiki/images/1/15/Pc_yumegamen_sys15.png",
+    "localFile": "Pc_yumegamen_sys15.png",
+    "locations": [
+      {
+        "world": "Depths",
+        "worldText": "Depths",
+        "method": "Interact with the eggs in the Underwater Base and the deepest part of the Depths.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/4/4f/EggN14.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 16,
+    "filename": "https://yume.wiki/images/f/f1/Pc_yumegamen_sys16.png",
+    "localFile": "Pc_yumegamen_sys16.png",
+    "locations": [
+      {
+        "world": "Guts World",
+        "worldText": "Guts World",
+        "method": "Past the room with the clown in the grey building is a cramped storage room with a glowing pumpkin, which grants the theme.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/1/1c/PumpkinEgg.jpg",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 17,
+    "filename": "https://yume.wiki/images/5/54/Pc_yumegamen_sys17.png",
+    "localFile": "Pc_yumegamen_sys17.png",
+    "locations": [
+      {
+        "world": "Maple Shrine",
+        "worldText": "Maple Shrine",
+        "method": "Interact with the smiling orange head creature at the end of the maze.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/d/df/MenuHead.PNG",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 18,
+    "filename": "https://yume.wiki/images/6/67/Pc_yumegamen_sys18.png",
+    "localFile": "Pc_yumegamen_sys18.png",
+    "locations": [
+      {
+        "world": "Pencil World",
+        "worldText": "Pencil World",
+        "method": "After interacting with all four paintings, enter the rainbow tree picture. By using the Rainbow effect in the white scene to turn it colorful, a leaf will fall down from the tree, giving you a new theme.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/6/66/Treee.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 19,
+    "filename": "https://yume.wiki/images/9/95/Pc_yumegamen_sys19.png",
+    "localFile": "Pc_yumegamen_sys19.png",
+    "locations": [
+      {
+        "world": "Chocolate World",
+        "worldText": "Chocolate World",
+        "method": "By interacting with the chocolate fountain, the screen will be briefly covered with liquid chocolate and you will be given the theme. This menu theme is only available if the player has obtained the <a href=\"https://yume.wiki/2kki/Effects#Cake\">Cake</a> effect.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/3/38/Chocofountain.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 20,
+    "filename": "https://yume.wiki/images/a/a1/Pc_yumegamen_sys20.png",
+    "localFile": "Pc_yumegamen_sys20.png",
+    "locations": [
+      {
+        "world": "Blue Cactus Islands",
+        "worldText": "Blue Cactus Islands",
+        "method": "When warping throughout the area's interior you can reach a remote two-floor dwelling (located at the narwhal's fin). Inside is an isolated room with the egg which unlocks this theme.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/c/ce/Blue_cactus_islands_egg.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 21,
+    "filename": "https://yume.wiki/images/4/46/21.PNG",
+    "localFile": "21.PNG",
+    "locations": [
+      {
+        "world": "Stone Towers",
+        "worldText": "Stone Towers",
+        "method": "Through navigation of the second stone tower, find a well with a stone egg that gives you the theme.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/7/7f/Stone_towers_well.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 22,
+    "filename": "https://yume.wiki/images/d/d1/Pc_yumegamen_sys22.png",
+    "localFile": "Pc_yumegamen_sys22.png",
+    "locations": [
+      {
+        "world": "Constellation World",
+        "worldText": "Star Building",
+        "method": "Shortly right of the garden's exit is a golden egg that gives you this theme.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/6/66/Star_building_egg.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 23,
+    "filename": "https://yume.wiki/images/0/0f/Pc_yumegamen_sys23.png",
+    "localFile": "Pc_yumegamen_sys23.png",
+    "locations": [
+      {
+        "world": "Blob Desert",
+        "worldText": "Blob Desert",
+        "method": "Inside the pyramid located by going left and slightly down from the entrance. Unlocked by interacting with the blue creature on the reception desk. It won't show an unlock message unlike other menu themes.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/2/2e/BlobDesertMenuTheme.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 24,
+    "filename": "https://yume.wiki/images/1/1c/Pc_yumegamen_sys24.png",
+    "localFile": "Pc_yumegamen_sys24.png",
+    "locations": [
+      {
+        "world": "Cipher Keyboard",
+        "worldText": "Cipher Keyboard",
+        "method": "If you have obtained the <a href=\"https://yume.wiki/2kki/Effects#Child\">Child</a> and <a href=\"https://yume.wiki/2kki/Effects#Stretch\">Stretch</a> effects, near the upper-left face of the Enter key is a book that will give you this theme.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/a/a9/Matoran_keyboard_book.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 25,
+    "filename": "https://yume.wiki/images/5/5d/Pc_yumegamen_sys26.png",
+    "localFile": "Pc_yumegamen_sys26.png",
+    "locations": [
+      {
+        "world": "Viridian Wetlands",
+        "worldText": "Viridian Wetlands",
+        "method": "Found inside the skeleton of an aquatic creature, as an egg.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/b/bb/ViridianWetlandsMenu.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 26,
+    "filename": "https://yume.wiki/images/3/3f/Pc_yumegamen_sys25.png",
+    "localFile": "Pc_yumegamen_sys25.png",
+    "locations": [
+      {
+        "world": "Polluted Swamp",
+        "worldText": "Polluted Swamp",
+        "method": "Found in the bullet house with the aquatic creatures, as an egg.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/d/de/PollutedSwampMenu.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 27,
+    "filename": "https://yume.wiki/images/1/12/Pc_yumegamen_sys27.png",
+    "localFile": "Pc_yumegamen_sys27.png",
+    "locations": [
+      {
+        "world": "Snowy Village",
+        "worldText": "Snowy Village",
+        "method": "Found inside a gray building at the right of a fountain, as an egg.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/d/d2/SnowyVillageMenu.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 28,
+    "filename": "https://yume.wiki/images/c/ce/Pc_yumegamen_sys28.png",
+    "localFile": "Pc_yumegamen_sys28.png",
+    "locations": [
+      {
+        "world": "Decrepit Dwellings",
+        "worldText": "Decrepit Dwellings",
+        "method": "Found in the <a href=\"https://yume.wiki/2kki/Decrepit_Dwellings#Hidden_Forest\">Hidden Forest</a> by interacting with a <a href=\"https://yume.wiki/2kki/Minor_Characters#Black_Hole_Girls\">Black Hole Girl</a> with a blue outline.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/3/3e/DecreiptMenu.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 29,
+    "filename": "https://yume.wiki/images/6/65/Pc_yumegamen_sys29.png",
+    "localFile": "Pc_yumegamen_sys29.png",
+    "locations": [
+      {
+        "world": "Verdant Promenade",
+        "worldText": "Verdant Promenade",
+        "method": "Found at the entrance of the area from the <a href=\"https://yume.wiki/2kki/Chainlink_Lees\">Chainlink Lees</a> by interacting with a <a href=\"https://yume.wiki/2kki/Minor_Characters#Black_Hole_Girls\">Black Hole Girl</a> with a yellow-red outline.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/1/12/ForestMenu.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 30,
+    "filename": "https://yume.wiki/images/d/db/Pc_yumegamen_sys30.png",
+    "localFile": "Pc_yumegamen_sys30.png",
+    "locations": [
+      {
+        "world": "Black Ink World",
+        "worldText": "Black Ink World",
+        "method": "Found inside an inkpot in <a href=\"https://yume.wiki/2kki/Black_Ink_World\">Black Ink World</a> .",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/8/8e/BlackInkWorldMenuTheme.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 31,
+    "filename": "https://yume.wiki/images/4/48/Pc_yumegamen_sys31.png",
+    "localFile": "Pc_yumegamen_sys31.png",
+    "locations": [
+      {
+        "world": "Forgotten Megalopolis",
+        "worldText": "Forgotten Megalopolis",
+        "method": "Found in the <a href=\"https://yume.wiki/2kki/Forgotten_Megalopolis\">Forgotten Garden</a> by interacting with a <a href=\"https://yume.wiki/2kki/Minor_Characters#Black_Hole_Girls\">Black Hole Girl</a> with a green outline.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/1/1a/ForgottenGardenMenuTheme.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 32,
+    "filename": "https://yume.wiki/images/b/bf/Pc_yumegamen_sys32.png",
+    "localFile": "Pc_yumegamen_sys32.png",
+    "locations": [
+      {
+        "world": "Tomb of Velleities",
+        "worldText": "Tomb of Velleities",
+        "method": "Found in the <a href=\"https://yume.wiki/2kki/Tomb_of_Velleities#Lunar_Sanctuary\">Lunar Sanctuary</a> by interacting with a <a href=\"https://yume.wiki/2kki/Minor_Characters#Black_Hole_Girls\">Black Hole Girl</a> with a purple outline.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/d/d9/LunarSanctuaryMenuTheme.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 33,
+    "filename": "https://yume.wiki/images/f/fc/Wallpaper33.png",
+    "localFile": "Wallpaper33.png",
+    "locations": [
+      {
+        "world": "Ocular Spacecraft",
+        "worldText": "Ocular Spacecraft",
+        "method": "Interact with the blue being in the crystal field. Entering the door when the windows display blue asteroids leads here.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/4/41/Blue_being.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 34,
+    "filename": "https://yume.wiki/images/b/bb/Pc_yumegamen_sys34.png",
+    "localFile": "Pc_yumegamen_sys34.png",
+    "locations": [
+      {
+        "world": "Data Stream",
+        "worldText": "Data Stream",
+        "method": "Interact with Urotsuki's outline in a room accessible from a secret staircase.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/2/26/Data_stream_menu_theme.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 35,
+    "filename": "https://yume.wiki/images/8/88/Pc_yumegamen_sys35.png",
+    "localFile": "Pc_yumegamen_sys35.png",
+    "locations": [
+      {
+        "world": "Lavender Waters",
+        "worldText": "Lavender Waters",
+        "method": "Interact with a swan near the house.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/8/80/Lavender_waters_swan.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 36,
+    "filename": "https://yume.wiki/images/6/69/Pc_yumegamen_sys36.png",
+    "localFile": "Pc_yumegamen_sys36.png",
+    "locations": [
+      {
+        "world": "Originator Garden",
+        "worldText": "Originator Garden",
+        "method": "Interact with a vaguely-humanoid creature below the blood puddle, present after falling from the balcony in the <a href=\"https://yume.wiki/2kki/Second_Nexus\">Second Nexus</a> .",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/a/a2/OriginatorGarden10.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 37,
+    "filename": "https://yume.wiki/images/7/7e/Pc_yumegamen_sys37.png",
+    "localFile": "Pc_yumegamen_sys37.png",
+    "locations": [
+      {
+        "world": "Fluorescent Halls",
+        "worldText": "Fluorescent Halls",
+        "method": "Interact with a smiling creature with triangles for legs.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/7/78/FluorescentHalls7.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 38,
+    "filename": "https://yume.wiki/images/a/a8/Pc_yumegamen_sys38.png",
+    "localFile": "Pc_yumegamen_sys38.png",
+    "locations": [
+      {
+        "world": "Ahogeko's House",
+        "worldText": "Ahogeko's House",
+        "method": "Chainsaw the tail of a monstrous creature in the <a href=\"https://yume.wiki/2kki/Ahogeko%27s_House#Bloody_Passage\">Bloody Passage</a> .",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/5/5c/City_of_liars_tail.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 39,
+    "filename": "https://yume.wiki/images/c/cf/Pc_yumegamen_sys39.png",
+    "localFile": "Pc_yumegamen_sys39.png",
+    "locations": [
+      {
+        "world": null,
+        "worldText": "None",
+        "method": "Default theme",
+        "methodJP": null,
+        "filename": null,
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 40,
+    "filename": "https://yume.wiki/images/9/91/Pc_yumegamen_sys40.png",
+    "localFile": "Pc_yumegamen_sys40.png",
+    "locations": [
+      {
+        "world": "Monochrome GB World",
+        "worldText": "Monochrome GB World",
+        "method": "Interact with a malfunctioned security drone in an area accessible from the other side of the GB Tunnel.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/f/fe/NulsMonochrome3.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 41,
+    "filename": "https://yume.wiki/images/d/da/Pc_yumegamen_sys41.png",
+    "localFile": "Pc_yumegamen_sys41.png",
+    "locations": [
+      {
+        "world": "Smiley Signs World",
+        "worldText": "Smiley Signs World",
+        "method": "Interact with a knife southwest of the <a href=\"https://yume.wiki/2kki/Second_Nexus\">Second Nexus</a> entrance.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/0/0e/Smiley_signs_world_knife.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 42,
+    "filename": "https://yume.wiki/images/8/83/Pc_yumegamen_sys42.png",
+    "localFile": "Pc_yumegamen_sys42.png",
+    "locations": [
+      {
+        "world": "Lovesick World",
+        "worldText": "Lovesick World or the Second Nexus",
+        "method": "Interact with a love letter on the table of the house in <a href=\"https://yume.wiki/2kki/Lovesick_World\">Lovesick World</a> , or in the trash bin in <a href=\"https://yume.wiki/2kki/Second_Nexus\">???-tsuki's room</a> .",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/d/d0/Lw_house.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 43,
+    "filename": "https://yume.wiki/images/f/f9/Pc_yumegamen_sys43.png",
+    "localFile": "Pc_yumegamen_sys43.png",
+    "locations": [
+      {
+        "world": "Corrupted Love World",
+        "worldText": "Corrupted Love World",
+        "method": "Interact with a set of toys within a circle of hearts in <a href=\"https://yume.wiki/2kki/Corrupted_Love_World\">Corrupted Love World</a> .",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/6/6b/Corrupted_love_world_menu_theme.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 44,
+    "filename": "https://yume.wiki/images/d/dd/Pc_yumegamen_sys44.png",
+    "localFile": "Pc_yumegamen_sys44.png",
+    "locations": [
+      {
+        "world": "Pastel Chalk World",
+        "worldText": "Pastel Chalk World",
+        "method": "Interact with the flower in one of the houses in <a href=\"https://yume.wiki/2kki/Pastel_Chalk_World\">Pastel Chalk World</a> .",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/c/c8/Pastelchalkmenuthemeflower.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 45,
+    "filename": "https://yume.wiki/images/2/21/Pc_yumegamen_sys45.png",
+    "localFile": "Pc_yumegamen_sys45.png",
+    "locations": [
+      {
+        "world": "Luminous Lake",
+        "worldText": "Luminous Lake",
+        "method": "Interact with the <a href=\"https://yume.wiki/2kki/Minor_Characters#Black_Hole_Girls\">Black Hole Girl</a> at <a href=\"https://yume.wiki/2kki/Luminous_Lake#Dragon's_Peak\">Dragon's Peak</a>",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/0/0e/Menutheme45.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 46,
+    "filename": "https://yume.wiki/images/1/11/Pc_yumegamen_sys46.png",
+    "localFile": "Pc_yumegamen_sys46.png",
+    "locations": [
+      {
+        "world": "Monochrome GB World",
+        "worldText": "Monochrome GB World",
+        "method": "Found in a chest.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/f/f0/GBlike_menutheme_location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 47,
+    "filename": "https://yume.wiki/images/4/49/Pc_yumegamen_sys47.png",
+    "localFile": "Pc_yumegamen_sys47.png",
+    "locations": [
+      {
+        "world": "Snowman World",
+        "worldText": "Snowman World",
+        "method": "Interact with the Christmas Snowman in <a href=\"https://yume.wiki/2kki/Snowman_World\">Snowman World</a> , which is only present during <a href=\"https://yume.wiki/2kki/Seasons\">winter</a> .",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/7/76/Snowman_world_christmas_snowman.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 48,
+    "filename": "https://yume.wiki/images/b/b8/Pc_yumegamen_sys48.png",
+    "localFile": "Pc_yumegamen_sys48.png",
+    "locations": [
+      {
+        "world": "Sunset Hill",
+        "worldText": "Sunset Hill",
+        "method": "Interact with the flower in <a href=\"https://yume.wiki/2kki/Sunset_Hill\">Sunset Hill</a> to the right of the house.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/7/76/48_menutheme_location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 49,
+    "filename": "https://yume.wiki/images/8/80/Pc_yumegamen_sys49.png",
+    "localFile": "Pc_yumegamen_sys49.png",
+    "locations": [
+      {
+        "world": "Horror Maze",
+        "worldText": "Horror Maze",
+        "method": "Enter the <a href=\"https://yume.wiki/2kki/Horror_Maze\">Horror Maze</a> .",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/0/09/49_menutheme_location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 50,
+    "filename": "https://yume.wiki/images/b/b0/Pc_yumegamen_sys50.png",
+    "localFile": "Pc_yumegamen_sys50.png",
+    "locations": [
+      {
+        "world": "Blue Restaurant",
+        "worldText": "Blue Restaurant",
+        "method": "Pop all ten balloons seen by looking into the gray cube in <a href=\"https://yume.wiki/2kki/Blue_Restaurant\">Blue Restaurant</a> , then interact with the purple balloon.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/1/14/Menu_theme_50.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 51,
+    "filename": "https://yume.wiki/images/7/70/MenuTheme51.png",
+    "localFile": "MenuTheme51.png",
+    "locations": [
+      {
+        "world": "Domino Constructions",
+        "worldText": "Domino Constructions",
+        "method": "Interact with the painting in the <a href=\"https://yume.wiki/2kki/Domino_Constructions\">Domino Constructions</a> flag room.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/d/d5/MenuTheme51Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 52,
+    "filename": "https://yume.wiki/images/0/0a/MenuTheme52.png",
+    "localFile": "MenuTheme52.png",
+    "locations": [
+      {
+        "world": "Glitch Hell",
+        "worldText": "Glitch Hell",
+        "method": "Get caught by a mosaic-like NPC in <a href=\"https://yume.wiki/2kki/Glitch_Hell\">Glitch Hell</a> .",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/e/ea/MenuTheme52Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 53,
+    "filename": "https://yume.wiki/images/9/90/MenuTheme53.png",
+    "localFile": "MenuTheme53.png",
+    "locations": [
+      {
+        "world": "Sakura Forest",
+        "worldText": "Sakura Forest",
+        "method": "Interact with <a href=\"https://yume.wiki/2kki/Minor_Characters#BunBun\">BunBun</a> , the giant bunny in <a href=\"https://yume.wiki/2kki/Sakura_Forest\">Sakura Forest</a> , with the <a href=\"https://yume.wiki/2kki/Effects#Bunny_Ears/Usamimi\">Bunny Ears</a> effect equipped.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/f/f8/MenuTheme53Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 54,
+    "filename": "https://yume.wiki/images/e/e9/MenuTheme54.png",
+    "localFile": "MenuTheme54.png",
+    "locations": [
+      {
+        "world": "Sunset Savannah",
+        "worldText": "Sunset Savannah",
+        "method": "Interact with the white star at the Twilight Time of the <a href=\"https://yume.wiki/2kki/Sunset_Savannah\">Sunset Savannah</a> .",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/6/6e/MenuTheme54Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 55,
+    "filename": "https://yume.wiki/images/c/cd/MenuTheme55.png",
+    "localFile": "MenuTheme55.png",
+    "locations": [
+      {
+        "world": "Bishop Cathedral",
+        "worldText": "Bishop Cathedral",
+        "method": "Solve the flower puzzle in <a href=\"https://yume.wiki/2kki/Bishop_Cathedral\">Bishop Cathedral</a> to unlock the Bishop Room from the altar at Rose Window Hall. Interact with <a href=\"https://yume.wiki/2kki/Minor_Characters#Bishop_Florent\">Bishop Florent</a> in Bishop Room to obtain this menu theme.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/d/d5/MenuTheme55Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 56,
+    "filename": "https://yume.wiki/images/9/96/MenuTheme56.png",
+    "localFile": "MenuTheme56.png",
+    "locations": [
+      {
+        "world": "Fish Person Shoal",
+        "worldText": "Fish Person Shoal",
+        "method": "Interact with the angry fish person in <a href=\"https://yume.wiki/2kki/Fish_Person_Shoal\">Fish Person Shoal</a> after using the fishing rod inside of the cave while the polar bear is asleep.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/4/4c/FPS_0.123c_angry_fish.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 57,
+    "filename": "https://yume.wiki/images/1/12/MenuTheme57.png",
+    "localFile": "MenuTheme57.png",
+    "locations": [
+      {
+        "world": "Six-Layer Terminal",
+        "worldText": "Six-Layer Terminal",
+        "method": "After chainsawing the Four Guardians in their respective Trials, which you can find in the portals in the areas connecting to the <a href=\"https://yume.wiki/2kki/Six-Layer_Terminal\">Six-Layer Terminal</a> bridges, interact with the purple diamond portal in the bottom-most layer of the Six-Layer Terminal to go to an area with a shadow of an adult Urotsuki. Interact with this shadow to obtain this menu theme. <p> This menu theme can also be temporarily equipped by interacting with the butterfly in worlds associated with <a href=\"https://yume.wiki/2kki/Dreamland\">Dreamland</a> . However, getting it this way does not unlock it in the PC. </p>",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/4/4d/MenuTheme57Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 58,
+    "filename": "https://yume.wiki/images/0/07/MenuTheme58.png",
+    "localFile": "MenuTheme58.png",
+    "locations": [
+      {
+        "world": "Colorless Rose Garden",
+        "worldText": "Colorless Rose Garden",
+        "method": "Interact with the half-body statue at <a href=\"https://yume.wiki/2kki/Colorless_Rose_Garden\">Colorless Rose Garden</a> , then interact with the NPC.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/b/bb/MenuTheme58Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 59,
+    "filename": "https://yume.wiki/images/7/7e/MenuTheme59.png",
+    "localFile": "MenuTheme59.png",
+    "locations": [
+      {
+        "world": "Shadow Lady Estate",
+        "worldText": "Shadow Lady Estate",
+        "method": "Interact with the painting on the second floor of <a href=\"https://yume.wiki/2kki/Shadow_Lady_Estate\">Shadow Lady Estate</a> .",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/4/41/MenuTheme59Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 60,
+    "filename": "https://yume.wiki/images/b/bf/MenuTheme60.png",
+    "localFile": "MenuTheme60.png",
+    "locations": [
+      {
+        "world": "Flicker Trail",
+        "worldText": "Flicker Trail",
+        "method": "Interact with the spinning white key found in a room.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/1/15/MenuTheme60Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 61,
+    "filename": "https://yume.wiki/images/8/8b/MenuTheme61.png",
+    "localFile": "MenuTheme61.png",
+    "locations": [
+      {
+        "world": "Rainbow Snow Plateau",
+        "worldText": "Rainbow Snow Plateau",
+        "method": "Interact with the rainbow egg in an igloo with a flag on the outside.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/2/23/MenuTheme61Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 62,
+    "filename": "https://yume.wiki/images/4/4a/MenuTheme62.png",
+    "localFile": "MenuTheme62.png",
+    "locations": [
+      {
+        "world": "Pitch Black Plateau",
+        "worldText": "Pitch Black Plateau",
+        "method": "Interact with the dark blue Urotsuki clone or the wandering NPC in <a href=\"https://yume.wiki/2kki/Pitch_Black_Plateau#The_Emptiness\">The Emptiness in Pitch Black Plateau</a> .",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/a/a3/PBP15.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 63,
+    "filename": "https://yume.wiki/images/a/a5/MenuTheme63.png",
+    "localFile": "MenuTheme63.png",
+    "locations": [
+      {
+        "world": "Pitch Black Plateau",
+        "worldText": "Pitch Black Plateau",
+        "method": "Interact with the dark blue Urotsuki clone or the wandering NPC in <a href=\"https://yume.wiki/2kki/Pitch_Black_Plateau#The_Emptiness\">The Emptiness in Pitch Black Plateau</a> .",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/a/a3/PBP15.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 64,
+    "filename": "https://yume.wiki/images/5/53/MenuTheme64.png",
+    "localFile": "MenuTheme64.png",
+    "locations": [
+      {
+        "world": "Pollution District",
+        "worldText": "Pollution District",
+        "method": "Inside the mausoleum, interact with the silhouettes and then with the grave.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/0/09/MenuTheme64Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 65,
+    "filename": "https://yume.wiki/images/a/a5/MenuTheme65.png",
+    "localFile": "MenuTheme65.png",
+    "locations": [
+      {
+        "world": "Sweet Medical Utopia",
+        "worldText": "Sweet Medical Utopia",
+        "method": "Interact with the hand with a cyan-pink gradient.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/5/58/MenuTheme65Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 66,
+    "filename": "https://yume.wiki/images/9/97/MenuTheme66.png",
+    "localFile": "MenuTheme66.png",
+    "locations": [
+      {
+        "world": "Runic Ruins",
+        "worldText": "Runic Ruins",
+        "method": "Interact with the floating, fractured object at the end of the Ice Path Puzzle.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/b/bc/MenuTheme66Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 67,
+    "filename": "https://yume.wiki/images/f/f4/MenuTheme67.png",
+    "localFile": "MenuTheme67.png",
+    "locations": [
+      {
+        "world": "Rainy Sundial",
+        "worldText": "Rainy Sundial",
+        "method": "After using the Rainbow effect and panning up the screen, interact with the prism found right of the sundial.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/2/2e/MenuTheme67Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 68,
+    "filename": "https://yume.wiki/images/5/53/MenuTheme68.png",
+    "localFile": "MenuTheme68.png",
+    "locations": [
+      {
+        "world": "Paraffin Embedding Ruins",
+        "worldText": "Paraffin Embedding Ruins",
+        "method": "Interact with the colorful prism near the entrance.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/e/e1/MenuTheme68Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 69,
+    "filename": "https://yume.wiki/images/6/65/MenuTheme69.png",
+    "localFile": "MenuTheme69.png",
+    "locations": [
+      {
+        "world": "Fragmented Station",
+        "worldText": "Fragmented Station B",
+        "method": "Enter Fragmented Station B from <a href=\"https://yume.wiki/2kki/Snowfall_Pier\">Snowfall Pier</a> and interacting with the prism on the train platform.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/a/a2/MenuTheme69Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 70,
+    "filename": "https://yume.wiki/images/7/7d/MenuTheme70.png",
+    "localFile": "MenuTheme70.png",
+    "locations": [
+      {
+        "world": "Snow Black",
+        "worldText": "Snow Black",
+        "method": "Interact with the rainbow prism in the middle of the lock circle.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/2/2c/Blacksnow3.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 71,
+    "filename": "https://yume.wiki/images/5/5b/MenuTheme71.png",
+    "localFile": "MenuTheme71.png",
+    "locations": [
+      {
+        "world": "Turquoise Cityscape",
+        "worldText": "Turquoise Cityscape",
+        "method": "Interact with the egg at the end of the hidden passage behind the bridge.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/1/11/Tcs_menutheme2.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 72,
+    "filename": "https://yume.wiki/images/6/6d/MenuTheme72.png",
+    "localFile": "MenuTheme72.png",
+    "locations": [
+      {
+        "world": "Scattered Sky Fields",
+        "worldText": "Scattered Sky Fields",
+        "method": "Interact with the egg in the field.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/9/9f/Ssf_menutheme.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 73,
+    "filename": "https://yume.wiki/images/a/a3/MenuTheme73.png",
+    "localFile": "MenuTheme73.png",
+    "locations": [
+      {
+        "world": "Megalith Grove",
+        "worldText": "Megalith Grove",
+        "method": "Interact with an object in the overlook from descending the ladder in the middle of the bridge.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/e/ee/MegaG5.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 74,
+    "filename": "https://yume.wiki/images/2/2d/MenuTheme74.png",
+    "localFile": "MenuTheme74.png",
+    "locations": [
+      {
+        "world": "English Thundershower",
+        "worldText": "English Thundershower",
+        "method": "Interact with an object in a bedroom on the 3rd floor of a building.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/a/aa/English_thundershower_menutheme.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 75,
+    "filename": "https://yume.wiki/images/b/b7/MenuTheme75.png",
+    "localFile": "MenuTheme75.png",
+    "locations": [
+      {
+        "world": "Crescent Tile World",
+        "worldText": "Crescent Tile World",
+        "method": "Interact with the egg in the final room after completing the event.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/0/00/MenuTheme75Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 76,
+    "filename": "https://yume.wiki/images/7/7a/MenuTheme76.png",
+    "localFile": "MenuTheme76.png",
+    "locations": [
+      {
+        "world": "Shaded Hallways",
+        "worldText": "Shaded Hallways",
+        "method": "Reach the lakeside at the end of the area and interact with the dark magenta crystal.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/2/2a/Shade10.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 77,
+    "filename": "https://yume.wiki/images/d/db/MenuTheme77.png",
+    "localFile": "MenuTheme77.png",
+    "locations": [
+      {
+        "world": "Alto",
+        "worldText": "Alto",
+        "method": "Interact with the floating CD in the small apartment room.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/7/74/Alto_MenuTheme77Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 78,
+    "filename": "https://yume.wiki/images/2/28/MenuTheme78.png",
+    "localFile": "MenuTheme78.png",
+    "locations": [
+      {
+        "world": "Dream Tropics",
+        "worldText": "Dream Tropics",
+        "method": "Interact with the orb after beating the boss in the dungeon.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/9/94/MenuTheme78Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 79,
+    "filename": "https://yume.wiki/images/6/66/MenuTheme79.png",
+    "localFile": "MenuTheme79.png",
+    "locations": [
+      {
+        "world": "Black Dust Desert",
+        "worldText": "Black Dust Desert",
+        "method": "Interact with the obelisk inside the tent.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/8/83/Black_dust_desert_4.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 80,
+    "filename": "https://yume.wiki/images/2/2b/MenuTheme80.png",
+    "localFile": "MenuTheme80.png",
+    "locations": [
+      {
+        "world": "City of Revival",
+        "worldText": "City of Revival",
+        "method": "Interact with the slime at the top of the Tower.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/6/63/City_of_revival_17.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 81,
+    "filename": "https://yume.wiki/images/3/38/MenuTheme81.png",
+    "localFile": "MenuTheme81.png",
+    "locations": [
+      {
+        "world": "Stone World",
+        "worldText": "Stone World",
+        "method": "Interact with the neon door found on a branching path in the west part of the world.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/6/6f/StoneMenuTheme.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 82,
+    "filename": "https://yume.wiki/images/f/fd/Pc_yumegamen_sys82.png",
+    "localFile": "Pc_yumegamen_sys82.png",
+    "locations": [
+      {
+        "world": "Verdant Promenade",
+        "worldText": "Verdant Promenade",
+        "method": "Interact with the green-blue Black Hole Girl inside the Antiquated Resthouse.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/7/70/VerdantPromenadeMenu.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 83,
+    "filename": "https://yume.wiki/images/8/89/Pc_yumegamen_sys83.png",
+    "localFile": "Pc_yumegamen_sys83.png",
+    "locations": [
+      {
+        "world": "Domino Maze",
+        "worldText": "Domino Maze",
+        "method": "Interact with the Pizza Girl in the Tomato Hole of the Domino Maze.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/8/82/DominoMaze-TomatoHole_Room1.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 84,
+    "filename": "https://yume.wiki/images/2/27/Pc_yumegamen_sys84.png",
+    "localFile": "Pc_yumegamen_sys84.png",
+    "locations": [
+      {
+        "world": "Domino Maze",
+        "worldText": "Domino Maze",
+        "method": "Interact with the red flowers after interacting with the girl in the Snowglobe of the Domino Maze.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/a/a7/DominoMaze-TomatoHole_WhiteRoom3.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 85,
+    "filename": "https://yume.wiki/images/3/3f/Pc_yumegamen_sys85.png",
+    "localFile": "Pc_yumegamen_sys85.png",
+    "locations": [
+      {
+        "world": "Quarter Flats",
+        "worldText": "Isolated sections of Quarter Flats",
+        "method": "After visiting the <b>Yellow Polygon Room</b> in <a href=\"https://yume.wiki/2kki/Somber_Establishment\">Somber Establishment</a> , interact with the tree in <a href=\"https://yume.wiki/2kki/Pulsating_Yellow_Passage\">Pulsating Yellow Passage</a> and interact with the yellow polygon.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/5/5e/Islandzonemt85.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 86,
+    "filename": "https://yume.wiki/images/4/4b/Pc_yumegamen_sys86.png",
+    "localFile": "Pc_yumegamen_sys86.png",
+    "locations": [
+      {
+        "world": "Quarter Flats",
+        "worldText": "Isolated sections of Quarter Flats",
+        "method": "After visiting the <b>Tiled Abolition</b> in <a href=\"https://yume.wiki/2kki/Expanded_Corridors\">Expanded Corridors</a> , jump through the grey hole in the boat section of <a href=\"https://yume.wiki/2kki/Blue_Sanctuary\">Blue Sanctuary</a> , and interact with the green blob.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/d/d0/Islandzonemt86.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 87,
+    "filename": "https://yume.wiki/images/c/cb/Pc_yumegamen_sys87.png",
+    "localFile": "Pc_yumegamen_sys87.png",
+    "locations": [
+      {
+        "world": "Quarter Flats",
+        "worldText": "Isolated sections of Quarter Flats",
+        "method": "After visiting the <b>Weird Room</b> in <a href=\"https://yume.wiki/2kki/Fish_Person_Shoal#Shoal_Caverns\">Fish Person Shoal: Deeper Shoal Caverns</a> , enter through the door in <a href=\"https://yume.wiki/2kki/Somber_Waterfront\">Somber Waterfront</a> and interact with the blue coral.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/8/8f/Islandzonemt87.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 88,
+    "filename": "https://yume.wiki/images/f/fd/Pc_yumegamen_sys88.png",
+    "localFile": "Pc_yumegamen_sys88.png",
+    "locations": [
+      {
+        "world": "The Desktop",
+        "worldText": "The Desktop",
+        "method": "Interact with the colorful cursor.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/1/15/TheDesktop_MenuTheme88.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 89,
+    "filename": "https://yume.wiki/images/f/fb/Pc_yumegamen_sys89.png",
+    "localFile": "Pc_yumegamen_sys89.png",
+    "locations": [
+      {
+        "world": "Yellow Geometries",
+        "worldText": "Yellow Geometries",
+        "method": "Interact with the red boy outline.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/7/7f/Flower_boy_thing_idk.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 90,
+    "filename": "https://yume.wiki/images/4/46/Pc_yumegamen_sys90.png",
+    "localFile": "Pc_yumegamen_sys90.png",
+    "locations": [
+      {
+        "world": "Neon Highway",
+        "worldText": "Neon Highway",
+        "method": "Interact with the NPC in the taxi.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/a/a1/Neon_highway_menu_npc.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 91,
+    "filename": "https://yume.wiki/images/0/06/Pc_yumegamen_sys91.png",
+    "localFile": "Pc_yumegamen_sys91.png",
+    "locations": [
+      {
+        "world": "Highway",
+        "worldText": "Highway : Bedroom",
+        "method": "In the dark version of the room, enter the doorway on the wall, then interact with the open book on the floor.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/c/ca/Yume2kki_MenuTheme91Location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 92,
+    "filename": "https://yume.wiki/images/a/a0/Pc_yumegamen_sys92.png",
+    "localFile": "Pc_yumegamen_sys92.png",
+    "locations": [
+      {
+        "world": "Sushi Roll Swamp",
+        "worldText": "Sushi Roll Swamp",
+        "method": "Interact with the green sushi after teleporting to the area using the rainbow sushi.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/7/71/0640menutheme.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 93,
+    "filename": "https://yume.wiki/images/7/7c/Pc_yumegamen_sys93.png",
+    "localFile": "Pc_yumegamen_sys93.png",
+    "locations": [
+      {
+        "world": "Spirit Capital",
+        "worldText": "Spirit Capital",
+        "method": "Interact with the flower pot in the Static Room after the underwater section.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/7/7a/Spirit_Capital_static_room.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 94,
+    "filename": "https://yume.wiki/images/d/d0/Pc_yumegamen_sys94.png",
+    "localFile": "Pc_yumegamen_sys94.png",
+    "locations": [
+      {
+        "world": "Twisted Cone World",
+        "worldText": "Twisted Cone World",
+        "method": "Interact with the hatless Light Lady.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/3/37/TwistedConeWorld_LightLady.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 95,
+    "filename": "https://yume.wiki/images/d/db/Temp_icon_4.png",
+    "localFile": "Temp_icon_4.png",
+    "locations": [
+      {
+        "world": "Retro Cartridge Game",
+        "worldText": "Retro Cartridge Game",
+        "method": "Interact with the egg after walking through the wall to the left.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/3/3a/95menu.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 96,
+    "filename": "https://yume.wiki/images/7/75/Pc_yumegamen_sys96.png",
+    "localFile": "Pc_yumegamen_sys96.png",
+    "locations": [
+      {
+        "world": "Bleeding Sorrows",
+        "worldText": "Bleeding Sorrows",
+        "method": "Interact with the large red creature at the end of the passage.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/a/a2/MenuTheme96_location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 97,
+    "filename": "https://yume.wiki/images/e/ec/ASCIIMenuTheme.png",
+    "localFile": "ASCIIMenuTheme.png",
+    "locations": [
+      {
+        "world": "ASCII Symbol Zone",
+        "worldText": "ASCII Symbol Zone",
+        "method": "Interact with the blue space key.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/9/94/ASCIIMenuThemeLocation.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 98,
+    "filename": "https://yume.wiki/images/f/ff/Pc_yumegamen_sys98.png",
+    "localFile": "Pc_yumegamen_sys98.png",
+    "locations": [
+      {
+        "world": "Dizzy Spirals World",
+        "worldText": "Dizzy Spirals World",
+        "method": "Interact with the bouncing yellow ball.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/e/eb/DizzySpiralsMenuTheme.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 99,
+    "filename": "https://yume.wiki/images/f/f6/Pc_yumegamen_sys99.png",
+    "localFile": "Pc_yumegamen_sys99.png",
+    "locations": [
+      {
+        "world": "Radiant Waters",
+        "worldText": "Radiant Waters",
+        "method": "Interact with the NPC inside the tent.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/d/d3/MenuTheme99_location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 100,
+    "filename": "https://yume.wiki/images/f/f2/Pc_yumegamen_sys100.png",
+    "localFile": "Pc_yumegamen_sys100.png",
+    "locations": [
+      {
+        "world": "Glitched Digits",
+        "worldText": "Glitched Digits",
+        "method": "Complete the chaser event.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/8/82/GlitchedHand_MenuTheme.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 101,
+    "filename": "https://yume.wiki/images/d/d4/Pc_yumegamen_sys101.png",
+    "localFile": "Pc_yumegamen_sys101.png",
+    "locations": [
+      {
+        "world": "Calico Forest",
+        "worldText": "Calico Forest",
+        "method": "Interact with the egg inside the pencil house.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/1/14/MenuTheme101_location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 102,
+    "filename": "https://yume.wiki/images/6/6c/Pc_yumegamen_sys102.png",
+    "localFile": "Pc_yumegamen_sys102.png",
+    "locations": [
+      {
+        "world": "New Japan Town",
+        "worldText": "New Japan Town",
+        "method": "Interact with the cube in Cinnabar's room.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/a/a9/MenuTheme102_location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 103,
+    "filename": "https://yume.wiki/images/f/fb/Pc_yumegamen_sys103.png",
+    "localFile": "Pc_yumegamen_sys103.png",
+    "locations": [
+      {
+        "world": "Duck Depths",
+        "worldText": "Duck Depths",
+        "method": "Interact with the egg on top of the duck's head.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/0/0e/MenuTheme103_location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 104,
+    "filename": "https://yume.wiki/images/3/37/Pc_yumegamen_sys104.png",
+    "localFile": "Pc_yumegamen_sys104.png",
+    "locations": [
+      {
+        "world": "Frozen Stratosphere",
+        "worldText": "Frozen Stratosphere",
+        "method": "Interact with the flower at the bottom of the staircase.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/b/b2/MenuTheme104_location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 105,
+    "filename": "https://yume.wiki/images/3/30/Pc_yumegamen_sys105.png",
+    "localFile": "Pc_yumegamen_sys105.png",
+    "locations": [
+      {
+        "world": "Garden Festival",
+        "worldText": "Garden Festival",
+        "method": "Awarded after completing <a href=\"https://yume.wiki/2kki/Garden_Festival#Unlocking_Menu_Theme_#105\">several conditions</a> .",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/6/68/Ynoproject_2kki_Garden_Festival_screenshot_2025-10-25-13h19m14s.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 106,
+    "filename": "https://yume.wiki/images/c/c9/Pc_yumegamen_sys106.png",
+    "localFile": "Pc_yumegamen_sys106.png",
+    "locations": [
+      {
+        "world": "Painted Landscape",
+        "worldText": "Painted Landscape",
+        "method": "After chainsawing the purple creature in <a href=\"https://yume.wiki/2kki/Underground_Color_Facility\">Underground Color Facility</a> , interact with the orb.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/b/b3/PaintedLandscape5.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 107,
+    "filename": "https://yume.wiki/images/9/97/Pc_yumegamen_sys107.png",
+    "localFile": "Pc_yumegamen_sys107.png",
+    "locations": [
+      {
+        "world": "Abyss",
+        "worldText": "Abyss",
+        "method": "Interact with the cube.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/d/d8/MenuTheme107_location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 108,
+    "filename": "https://yume.wiki/images/8/88/Pc_yumegamen_sys108.png",
+    "localFile": "Pc_yumegamen_sys108.png",
+    "locations": [
+      {
+        "world": "Edifices",
+        "worldText": "Edifices",
+        "method": "Interact with the glowing orb.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/7/78/MenuTheme108loc.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 109,
+    "filename": "https://yume.wiki/images/8/8e/Pc_yumegamen_sys109.png",
+    "localFile": "Pc_yumegamen_sys109.png",
+    "locations": [
+      {
+        "world": "Kaleidoscope",
+        "worldText": "Kaleidoscope",
+        "method": "Interact with the glowing orb.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/2/2c/MenuTheme109location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 110,
+    "filename": "https://yume.wiki/images/4/4a/Pc_yumegamen_sys110.png",
+    "localFile": "Pc_yumegamen_sys110.png",
+    "locations": [
+      {
+        "world": "Red-Threaded Townscape",
+        "worldText": "Lotus Lakeside",
+        "method": "Interact with the radio in the sectioned-off area, accessible through <a href=\"https://yume.wiki/2kki/Red-Threaded_Townscape\">Red-Threaded Townscape</a> <i>only if</i> <a href=\"https://yume.wiki/2kki/Menu_Themes#Theme_#44\">Menu Theme #44</a> has been acquired.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/e/e6/MenuTheme110location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 111,
+    "filename": "https://yume.wiki/images/b/ba/Pc_yumegamen_sys111.png",
+    "localFile": "Pc_yumegamen_sys111.png",
+    "locations": [
+      {
+        "world": "Black Wing Heaven",
+        "worldText": "Black Wing Heaven",
+        "method": "Interact with the yellow egg.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/a/a9/2kki_Menu_Theme_111_location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": 112,
+    "filename": "https://yume.wiki/images/c/c6/Pc_yumegamen_sys112.png",
+    "localFile": "Pc_yumegamen_sys112.png",
+    "locations": [
+      {
+        "world": "Blue Flower Void",
+        "worldText": "Blue Flower Void",
+        "method": "Interact with the blue egg.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/1/1e/2kki_Menu_Theme_112_location.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": -1,
+    "filename": "https://yume.wiki/images/3/3b/Syseye.png",
+    "localFile": "Syseye.png",
+    "locations": [
+      {
+        "world": "Saturated Eyeball Zone",
+        "worldText": "Saturated Eyeball Zone",
+        "method": "Killing this NPC will instantly replace your current menu theme with the eyeball theme. The NPC dies permanently, so this menu theme will be forever unobtainable if you change your menu theme afterwards.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/7/75/EyeMenuSkin.PNG",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": -2,
+    "filename": "https://yume.wiki/images/7/7a/Temp_icon_2.png",
+    "localFile": "Temp_icon_2.png",
+    "locations": [
+      {
+        "world": "NES Glitch Tunnel",
+        "worldText": "NES Glitch Tunnel",
+        "method": "Only available when exploring the NES Glitch Tunnel.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/f/f9/Fc_glitch_tunnel_cars.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": -3,
+    "filename": "https://yume.wiki/images/d/d7/Temp_icon_3.png",
+    "localFile": "Temp_icon_3.png",
+    "locations": [
+      {
+        "world": "Shop Ruins",
+        "worldText": "Shop Ruins",
+        "method": "Can be toggled by interacting with the heart-shaped NPC in the pink 8-bit area, accessible from the bottle in the left table of the hidden chemical storage in <a href=\"https://yume.wiki/2kki/Shop_Ruins\">Shop Ruins</a> . This menu theme lasts until you use the <a href=\"https://yume.wiki/2kki/Effects#Eyeball_Bomb\">Eyeball Bomb</a> effect or wake up, and can be re-obtained as much as you want.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/a/a4/Shop_ruins_pink_room.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": -4,
+    "filename": "https://yume.wiki/images/d/d4/Love_Lodge_Menu_Theme.png",
+    "localFile": "Love_Lodge_Menu_Theme.png",
+    "locations": [
+      {
+        "world": "Love Lodge",
+        "worldText": "Love Lodge",
+        "method": "Killing the <a href=\"https://yume.wiki/2kki/Minor_Characters#Witch_of_Hatred\">Witch of Hatred</a> will temporarily give you this menu theme. This lasts until you use the <a href=\"https://yume.wiki/2kki/Effects#Eyeball_Bomb\">Eyeball Bomb</a> effect or wake up, and can be re-obtained as much as you want.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/4/44/Love_Lodge_Witch_of_the_Hatred.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": -5,
+    "filename": "https://yume.wiki/images/e/e3/Neriumlabiconpink.png",
+    "localFile": "Neriumlabiconpink.png",
+    "locations": [
+      {
+        "world": "Nerium Lab",
+        "worldText": "Nerium Lab",
+        "method": "These themes are available after interacting with each maid in <a href=\"https://yume.wiki/2kki/Nerium_Lab\">Nerium Lab's</a> first room. Unlike the other themes of this list, they stay toggled after waking up, but still can't be selected in the computer.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/d/d9/Thatoneroomwiththemaids.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": -6,
+    "filename": "https://yume.wiki/images/b/b8/Neriumlabiconblue.png",
+    "localFile": "Neriumlabiconblue.png",
+    "locations": [
+      {
+        "world": "Nerium Lab",
+        "worldText": "Nerium Lab",
+        "method": "These themes are available after interacting with each maid in <a href=\"https://yume.wiki/2kki/Nerium_Lab\">Nerium Lab's</a> first room. Unlike the other themes of this list, they stay toggled after waking up, but still can't be selected in the computer.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/d/d9/Thatoneroomwiththemaids.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": -7,
+    "filename": "https://yume.wiki/images/3/32/Mia_barrier_icon.png",
+    "localFile": "Mia_barrier_icon.png",
+    "locations": [
+      {
+        "world": "Glitch Hell",
+        "worldText": "Glitch Hell",
+        "method": "Interact with the musical eyeball-like creature. This is the default RPG Maker menu. It lasts until the <a href=\"https://yume.wiki/2kki/Effects#Eyeball_Bomb\">Eyeball Bomb</a> effect is used or Urotsuki wakes up, and it can be repeatedly re-obtained. This theme can be brought to the rest of the dream world by setting a <a href=\"https://yume.wiki/2kki/Effects#Bat\">Bat</a> warp point in the isolated section of <a href=\"https://yume.wiki/2kki/Humanism\">Humanism</a> from <a href=\"https://yume.wiki/2kki/Microbiome_World\">Microbiome World</a> , then going to Humanism through the Glitch Hell route and using the Bat effect.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/1/18/Glitch_Hell_temp_theme_npc.png",
+        "removed": false
+      }
+    ]
+  },
+  {
+    "menuThemeId": -8,
+    "filename": "https://yume.wiki/images/3/32/Mia_barrier_icon.png",
+    "localFile": "Mia_barrier_icon.png",
+    "locations": [
+      {
+        "world": "Glitch Hell",
+        "worldText": "Glitch Hell",
+        "method": "Interact with a nonsensical, green bug-like creature. This seemingly glitched version of Menu Theme #52 lasts until the <a href=\"https://yume.wiki/2kki/Effects#Eyeball_Bomb\">Eyeball Bomb</a> effect is used or Urotsuki wakes up, and it can be repeatedly re-obtained. This theme can be brought to the rest of the dream world by setting a <a href=\"https://yume.wiki/2kki/Effects#Bat\">Bat</a> warp point in the isolated section of <a href=\"https://yume.wiki/2kki/Humanism\">Humanism</a> from <a href=\"https://yume.wiki/2kki/Microbiome_World\">Microbiome World</a> , then going to Humanism through the Glitch Hell route and using the Bat effect.",
+        "methodJP": null,
+        "filename": "https://yume.wiki/images/6/60/Glitch_Hell_temp_theme2_npc.png",
+        "removed": false
+      }
+    ]
+  }
+]
