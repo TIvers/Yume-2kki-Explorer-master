@@ -1,1 +1,0 @@
-export { worldData, worldsByName, graph, loadData } from './app.js';

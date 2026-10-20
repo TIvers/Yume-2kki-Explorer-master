@@ -172,7 +172,7 @@
       {
         "world": "Industrial Maze",
         "worldText": "Industrial Maze",
-        "method": "Interact with the orange egg in the <a href=\"https://yume.wiki/2kki/Industrial_Maze#Factory_Garden\">Factory Garden</a> .",
+        "method": "Interact with the orange egg in the <a href=\"https://yume.wiki/2kki/Industrial_Maze#Factory_Garden\">Factory Garden</a>.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/f/f5/Factory_garden.jpg",
         "removed": false
@@ -457,7 +457,7 @@
       {
         "world": "Black Ink World",
         "worldText": "Black Ink World",
-        "method": "Found inside an inkpot in <a href=\"https://yume.wiki/2kki/Black_Ink_World\">Black Ink World</a> .",
+        "method": "Found inside an inkpot in <a href=\"https://yume.wiki/2kki/Black_Ink_World\">Black Ink World</a>.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/8/8e/BlackInkWorldMenuTheme.png",
         "removed": false
@@ -547,7 +547,7 @@
       {
         "world": "Originator Garden",
         "worldText": "Originator Garden",
-        "method": "Interact with a vaguely-humanoid creature below the blood puddle, present after falling from the balcony in the <a href=\"https://yume.wiki/2kki/Second_Nexus\">Second Nexus</a> .",
+        "method": "Interact with a vaguely-humanoid creature below the blood puddle, present after falling from the balcony in the <a href=\"https://yume.wiki/2kki/Second_Nexus\">Second Nexus</a>.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/a/a2/OriginatorGarden10.png",
         "removed": false
@@ -577,7 +577,7 @@
       {
         "world": "Ahogeko's House",
         "worldText": "Ahogeko's House",
-        "method": "Chainsaw the tail of a monstrous creature in the <a href=\"https://yume.wiki/2kki/Ahogeko%27s_House#Bloody_Passage\">Bloody Passage</a> .",
+        "method": "Chainsaw the tail of a monstrous creature in the <a href=\"https://yume.wiki/2kki/Ahogeko%27s_House#Bloody_Passage\">Bloody Passage</a>.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/5/5c/City_of_liars_tail.png",
         "removed": false
@@ -637,7 +637,7 @@
       {
         "world": "Lovesick World",
         "worldText": "Lovesick World or the Second Nexus",
-        "method": "Interact with a love letter on the table of the house in <a href=\"https://yume.wiki/2kki/Lovesick_World\">Lovesick World</a> , or in the trash bin in <a href=\"https://yume.wiki/2kki/Second_Nexus\">???-tsuki's room</a> .",
+        "method": "Interact with a love letter on the table of the house in <a href=\"https://yume.wiki/2kki/Lovesick_World\">Lovesick World</a>, or in the trash bin in <a href=\"https://yume.wiki/2kki/Second_Nexus\">???-tsuki's room</a>.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/d/d0/Lw_house.png",
         "removed": false
@@ -652,7 +652,7 @@
       {
         "world": "Corrupted Love World",
         "worldText": "Corrupted Love World",
-        "method": "Interact with a set of toys within a circle of hearts in <a href=\"https://yume.wiki/2kki/Corrupted_Love_World\">Corrupted Love World</a> .",
+        "method": "Interact with a set of toys within a circle of hearts in <a href=\"https://yume.wiki/2kki/Corrupted_Love_World\">Corrupted Love World</a>.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/6/6b/Corrupted_love_world_menu_theme.png",
         "removed": false
@@ -667,7 +667,7 @@
       {
         "world": "Pastel Chalk World",
         "worldText": "Pastel Chalk World",
-        "method": "Interact with the flower in one of the houses in <a href=\"https://yume.wiki/2kki/Pastel_Chalk_World\">Pastel Chalk World</a> .",
+        "method": "Interact with the flower in one of the houses in <a href=\"https://yume.wiki/2kki/Pastel_Chalk_World\">Pastel Chalk World</a>.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/c/c8/Pastelchalkmenuthemeflower.png",
         "removed": false
@@ -712,7 +712,7 @@
       {
         "world": "Snowman World",
         "worldText": "Snowman World",
-        "method": "Interact with the Christmas Snowman in <a href=\"https://yume.wiki/2kki/Snowman_World\">Snowman World</a> , which is only present during <a href=\"https://yume.wiki/2kki/Seasons\">winter</a> .",
+        "method": "Interact with the Christmas Snowman in <a href=\"https://yume.wiki/2kki/Snowman_World\">Snowman World</a>, which is only present during <a href=\"https://yume.wiki/2kki/Seasons\">winter</a>.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/7/76/Snowman_world_christmas_snowman.png",
         "removed": false
@@ -742,7 +742,7 @@
       {
         "world": "Horror Maze",
         "worldText": "Horror Maze",
-        "method": "Enter the <a href=\"https://yume.wiki/2kki/Horror_Maze\">Horror Maze</a> .",
+        "method": "Enter the <a href=\"https://yume.wiki/2kki/Horror_Maze\">Horror Maze</a>.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/0/09/49_menutheme_location.png",
         "removed": false
@@ -757,7 +757,7 @@
       {
         "world": "Blue Restaurant",
         "worldText": "Blue Restaurant",
-        "method": "Pop all ten balloons seen by looking into the gray cube in <a href=\"https://yume.wiki/2kki/Blue_Restaurant\">Blue Restaurant</a> , then interact with the purple balloon.",
+        "method": "Pop all ten balloons seen by looking into the gray cube in <a href=\"https://yume.wiki/2kki/Blue_Restaurant\">Blue Restaurant</a>, then interact with the purple balloon.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/1/14/Menu_theme_50.png",
         "removed": false
@@ -787,7 +787,7 @@
       {
         "world": "Glitch Hell",
         "worldText": "Glitch Hell",
-        "method": "Get caught by a mosaic-like NPC in <a href=\"https://yume.wiki/2kki/Glitch_Hell\">Glitch Hell</a> .",
+        "method": "Get caught by a mosaic-like NPC in <a href=\"https://yume.wiki/2kki/Glitch_Hell\">Glitch Hell</a>.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/e/ea/MenuTheme52Location.png",
         "removed": false
@@ -802,7 +802,7 @@
       {
         "world": "Sakura Forest",
         "worldText": "Sakura Forest",
-        "method": "Interact with <a href=\"https://yume.wiki/2kki/Minor_Characters#BunBun\">BunBun</a> , the giant bunny in <a href=\"https://yume.wiki/2kki/Sakura_Forest\">Sakura Forest</a> , with the <a href=\"https://yume.wiki/2kki/Effects#Bunny_Ears/Usamimi\">Bunny Ears</a> effect equipped.",
+        "method": "Interact with <a href=\"https://yume.wiki/2kki/Minor_Characters#BunBun\">BunBun</a>, the giant bunny in <a href=\"https://yume.wiki/2kki/Sakura_Forest\">Sakura Forest</a>, with the <a href=\"https://yume.wiki/2kki/Effects#Bunny_Ears/Usamimi\">Bunny Ears</a> effect equipped.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/f/f8/MenuTheme53Location.png",
         "removed": false
@@ -817,7 +817,7 @@
       {
         "world": "Sunset Savannah",
         "worldText": "Sunset Savannah",
-        "method": "Interact with the white star at the Twilight Time of the <a href=\"https://yume.wiki/2kki/Sunset_Savannah\">Sunset Savannah</a> .",
+        "method": "Interact with the white star at the Twilight Time of the <a href=\"https://yume.wiki/2kki/Sunset_Savannah\">Sunset Savannah</a>.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/6/6e/MenuTheme54Location.png",
         "removed": false
@@ -862,7 +862,7 @@
       {
         "world": "Six-Layer Terminal",
         "worldText": "Six-Layer Terminal",
-        "method": "After chainsawing the Four Guardians in their respective Trials, which you can find in the portals in the areas connecting to the <a href=\"https://yume.wiki/2kki/Six-Layer_Terminal\">Six-Layer Terminal</a> bridges, interact with the purple diamond portal in the bottom-most layer of the Six-Layer Terminal to go to an area with a shadow of an adult Urotsuki. Interact with this shadow to obtain this menu theme. <p> This menu theme can also be temporarily equipped by interacting with the butterfly in worlds associated with <a href=\"https://yume.wiki/2kki/Dreamland\">Dreamland</a> . However, getting it this way does not unlock it in the PC. </p>",
+        "method": "After chainsawing the Four Guardians in their respective Trials, which you can find in the portals in the areas connecting to the <a href=\"https://yume.wiki/2kki/Six-Layer_Terminal\">Six-Layer Terminal</a> bridges, interact with the purple diamond portal in the bottom-most layer of the Six-Layer Terminal to go to an area with a shadow of an adult Urotsuki. Interact with this shadow to obtain this menu theme. <p>This menu theme can also be temporarily equipped by interacting with the butterfly in worlds associated with <a href=\"https://yume.wiki/2kki/Dreamland\">Dreamland</a>. However, getting it this way does not unlock it in the PC. </p>",
         "methodJP": null,
         "filename": "https://yume.wiki/images/4/4d/MenuTheme57Location.png",
         "removed": false
@@ -877,7 +877,7 @@
       {
         "world": "Colorless Rose Garden",
         "worldText": "Colorless Rose Garden",
-        "method": "Interact with the half-body statue at <a href=\"https://yume.wiki/2kki/Colorless_Rose_Garden\">Colorless Rose Garden</a> , then interact with the NPC.",
+        "method": "Interact with the half-body statue at <a href=\"https://yume.wiki/2kki/Colorless_Rose_Garden\">Colorless Rose Garden</a>, then interact with the NPC.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/b/bb/MenuTheme58Location.png",
         "removed": false
@@ -892,7 +892,7 @@
       {
         "world": "Shadow Lady Estate",
         "worldText": "Shadow Lady Estate",
-        "method": "Interact with the painting on the second floor of <a href=\"https://yume.wiki/2kki/Shadow_Lady_Estate\">Shadow Lady Estate</a> .",
+        "method": "Interact with the painting on the second floor of <a href=\"https://yume.wiki/2kki/Shadow_Lady_Estate\">Shadow Lady Estate</a>.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/4/41/MenuTheme59Location.png",
         "removed": false
@@ -937,7 +937,7 @@
       {
         "world": "Pitch Black Plateau",
         "worldText": "Pitch Black Plateau",
-        "method": "Interact with the dark blue Urotsuki clone or the wandering NPC in <a href=\"https://yume.wiki/2kki/Pitch_Black_Plateau#The_Emptiness\">The Emptiness in Pitch Black Plateau</a> .",
+        "method": "Interact with the dark blue Urotsuki clone or the wandering NPC in <a href=\"https://yume.wiki/2kki/Pitch_Black_Plateau#The_Emptiness\">The Emptiness in Pitch Black Plateau</a>.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/a/a3/PBP15.png",
         "removed": false
@@ -952,7 +952,7 @@
       {
         "world": "Pitch Black Plateau",
         "worldText": "Pitch Black Plateau",
-        "method": "Interact with the dark blue Urotsuki clone or the wandering NPC in <a href=\"https://yume.wiki/2kki/Pitch_Black_Plateau#The_Emptiness\">The Emptiness in Pitch Black Plateau</a> .",
+        "method": "Interact with the dark blue Urotsuki clone or the wandering NPC in <a href=\"https://yume.wiki/2kki/Pitch_Black_Plateau#The_Emptiness\">The Emptiness in Pitch Black Plateau</a>.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/a/a3/PBP15.png",
         "removed": false
@@ -1282,7 +1282,7 @@
       {
         "world": "Quarter Flats",
         "worldText": "Isolated sections of Quarter Flats",
-        "method": "After visiting the <b>Yellow Polygon Room</b> in <a href=\"https://yume.wiki/2kki/Somber_Establishment\">Somber Establishment</a> , interact with the tree in <a href=\"https://yume.wiki/2kki/Pulsating_Yellow_Passage\">Pulsating Yellow Passage</a> and interact with the yellow polygon.",
+        "method": "After visiting the <b>Yellow Polygon Room</b> in <a href=\"https://yume.wiki/2kki/Somber_Establishment\">Somber Establishment</a>, interact with the tree in <a href=\"https://yume.wiki/2kki/Pulsating_Yellow_Passage\">Pulsating Yellow Passage</a> and interact with the yellow polygon.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/5/5e/Islandzonemt85.png",
         "removed": false
@@ -1297,7 +1297,7 @@
       {
         "world": "Quarter Flats",
         "worldText": "Isolated sections of Quarter Flats",
-        "method": "After visiting the <b>Tiled Abolition</b> in <a href=\"https://yume.wiki/2kki/Expanded_Corridors\">Expanded Corridors</a> , jump through the grey hole in the boat section of <a href=\"https://yume.wiki/2kki/Blue_Sanctuary\">Blue Sanctuary</a> , and interact with the green blob.",
+        "method": "After visiting the <b>Tiled Abolition</b> in <a href=\"https://yume.wiki/2kki/Expanded_Corridors\">Expanded Corridors</a>, jump through the grey hole in the boat section of <a href=\"https://yume.wiki/2kki/Blue_Sanctuary\">Blue Sanctuary</a>, and interact with the green blob.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/d/d0/Islandzonemt86.png",
         "removed": false
@@ -1312,7 +1312,7 @@
       {
         "world": "Quarter Flats",
         "worldText": "Isolated sections of Quarter Flats",
-        "method": "After visiting the <b>Weird Room</b> in <a href=\"https://yume.wiki/2kki/Fish_Person_Shoal#Shoal_Caverns\">Fish Person Shoal: Deeper Shoal Caverns</a> , enter through the door in <a href=\"https://yume.wiki/2kki/Somber_Waterfront\">Somber Waterfront</a> and interact with the blue coral.",
+        "method": "After visiting the <b>Weird Room</b> in <a href=\"https://yume.wiki/2kki/Fish_Person_Shoal#Shoal_Caverns\">Fish Person Shoal: Deeper Shoal Caverns</a>, enter through the door in <a href=\"https://yume.wiki/2kki/Somber_Waterfront\">Somber Waterfront</a> and interact with the blue coral.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/8/8f/Islandzonemt87.png",
         "removed": false
@@ -1582,7 +1582,7 @@
       {
         "world": "Garden Festival",
         "worldText": "Garden Festival",
-        "method": "Awarded after completing <a href=\"https://yume.wiki/2kki/Garden_Festival#Unlocking_Menu_Theme_#105\">several conditions</a> .",
+        "method": "Awarded after completing <a href=\"https://yume.wiki/2kki/Garden_Festival#Unlocking_Menu_Theme_#105\">several conditions</a>.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/6/68/Ynoproject_2kki_Garden_Festival_screenshot_2025-10-25-13h19m14s.png",
         "removed": false
@@ -1597,7 +1597,7 @@
       {
         "world": "Painted Landscape",
         "worldText": "Painted Landscape",
-        "method": "After chainsawing the purple creature in <a href=\"https://yume.wiki/2kki/Underground_Color_Facility\">Underground Color Facility</a> , interact with the orb.",
+        "method": "After chainsawing the purple creature in <a href=\"https://yume.wiki/2kki/Underground_Color_Facility\">Underground Color Facility</a>, interact with the orb.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/b/b3/PaintedLandscape5.png",
         "removed": false
@@ -1732,7 +1732,7 @@
       {
         "world": "Shop Ruins",
         "worldText": "Shop Ruins",
-        "method": "Can be toggled by interacting with the heart-shaped NPC in the pink 8-bit area, accessible from the bottle in the left table of the hidden chemical storage in <a href=\"https://yume.wiki/2kki/Shop_Ruins\">Shop Ruins</a> . This menu theme lasts until you use the <a href=\"https://yume.wiki/2kki/Effects#Eyeball_Bomb\">Eyeball Bomb</a> effect or wake up, and can be re-obtained as much as you want.",
+        "method": "Can be toggled by interacting with the heart-shaped NPC in the pink 8-bit area, accessible from the bottle in the left table of the hidden chemical storage in <a href=\"https://yume.wiki/2kki/Shop_Ruins\">Shop Ruins</a>. This menu theme lasts until you use the <a href=\"https://yume.wiki/2kki/Effects#Eyeball_Bomb\">Eyeball Bomb</a> effect or wake up, and can be re-obtained as much as you want.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/a/a4/Shop_ruins_pink_room.png",
         "removed": false
@@ -1792,7 +1792,7 @@
       {
         "world": "Glitch Hell",
         "worldText": "Glitch Hell",
-        "method": "Interact with the musical eyeball-like creature. This is the default RPG Maker menu. It lasts until the <a href=\"https://yume.wiki/2kki/Effects#Eyeball_Bomb\">Eyeball Bomb</a> effect is used or Urotsuki wakes up, and it can be repeatedly re-obtained. This theme can be brought to the rest of the dream world by setting a <a href=\"https://yume.wiki/2kki/Effects#Bat\">Bat</a> warp point in the isolated section of <a href=\"https://yume.wiki/2kki/Humanism\">Humanism</a> from <a href=\"https://yume.wiki/2kki/Microbiome_World\">Microbiome World</a> , then going to Humanism through the Glitch Hell route and using the Bat effect.",
+        "method": "Interact with the musical eyeball-like creature. This is the default RPG Maker menu. It lasts until the <a href=\"https://yume.wiki/2kki/Effects#Eyeball_Bomb\">Eyeball Bomb</a> effect is used or Urotsuki wakes up, and it can be repeatedly re-obtained. This theme can be brought to the rest of the dream world by setting a <a href=\"https://yume.wiki/2kki/Effects#Bat\">Bat</a> warp point in the isolated section of <a href=\"https://yume.wiki/2kki/Humanism\">Humanism</a> from <a href=\"https://yume.wiki/2kki/Microbiome_World\">Microbiome World</a>, then going to Humanism through the Glitch Hell route and using the Bat effect.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/1/18/Glitch_Hell_temp_theme_npc.png",
         "removed": false
@@ -1807,7 +1807,7 @@
       {
         "world": "Glitch Hell",
         "worldText": "Glitch Hell",
-        "method": "Interact with a nonsensical, green bug-like creature. This seemingly glitched version of Menu Theme #52 lasts until the <a href=\"https://yume.wiki/2kki/Effects#Eyeball_Bomb\">Eyeball Bomb</a> effect is used or Urotsuki wakes up, and it can be repeatedly re-obtained. This theme can be brought to the rest of the dream world by setting a <a href=\"https://yume.wiki/2kki/Effects#Bat\">Bat</a> warp point in the isolated section of <a href=\"https://yume.wiki/2kki/Humanism\">Humanism</a> from <a href=\"https://yume.wiki/2kki/Microbiome_World\">Microbiome World</a> , then going to Humanism through the Glitch Hell route and using the Bat effect.",
+        "method": "Interact with a nonsensical, green bug-like creature. This seemingly glitched version of Menu Theme #52 lasts until the <a href=\"https://yume.wiki/2kki/Effects#Eyeball_Bomb\">Eyeball Bomb</a> effect is used or Urotsuki wakes up, and it can be repeatedly re-obtained. This theme can be brought to the rest of the dream world by setting a <a href=\"https://yume.wiki/2kki/Effects#Bat\">Bat</a> warp point in the isolated section of <a href=\"https://yume.wiki/2kki/Humanism\">Humanism</a> from <a href=\"https://yume.wiki/2kki/Microbiome_World\">Microbiome World</a>, then going to Humanism through the Glitch Hell route and using the Bat effect.",
         "methodJP": null,
         "filename": "https://yume.wiki/images/6/60/Glitch_Hell_temp_theme2_npc.png",
         "removed": false
