@@ -1,0 +1,20 @@
+[Unit]
+Description=Yume 2kki Explorer
+After=network.target mysql.service
+
+[Service]
+Type=simple
+User=yume2kki
+WorkingDirectory=/opt/yume2kki
+EnvironmentFile=/etc/yume2kki.env
+Environment=NODE_ENV=production
+Environment=HOST=127.0.0.1
+Environment=PORT=5000
+ExecStart=/usr/bin/node app.js
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

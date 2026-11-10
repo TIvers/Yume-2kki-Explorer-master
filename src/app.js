@@ -1514,6 +1514,7 @@ let glMaxTextureSize = 1024;
 let nodeObjects = [];
 let iconObject;
 let nodeIconObject;
+let worldTextureLoadGeneration = 0;
 
 let icons3D;
 
@@ -2766,82 +2767,129 @@ function sortIconInstances(instanceObject, unsortedOpacities, unsortedGrayscales
 
 function initWorldTextures() {
     const amount = worldData.length;
-    const filenames = [];
-    worldData.forEach(world => filenames.push(!world.hidden ? worldData[world.id].filename : hiddenWorldImageUrl));
-
     const dataLength = nodeImgDimensions.x * nodeImgDimensions.y * 4;
-
     worldImageData = new Uint8ClampedArray(dataLength * amount * 2 + dataLength);
-    return new Promise((resolve, reject) => {
-        Promise.all(getImageRawData(filenames))
-            .then(images => {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d', { alpha: false, willReadFrequently: true });
-                canvas.width = nodeImgDimensions.x;
-                canvas.height = nodeImgDimensions.y;
-                const fontSize = 36;
-                const halfFontSize = fontSize / 2;
-                let lineYOffset;
-                ctx.font = fontSize + 'px MS Gothic';
-                ctx.fillStyle = 'white';
-                ctx.strokeStyle = 'black';
-                ctx.lineWidth = 5;
-                let index = 0;
-                let rIndex = 0;
-                const offsetLabels = images.length * dataLength;
-                images.forEach(img => {
-                    // stretch to fit
-                    ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, nodeImgDimensions.x, nodeImgDimensions.y);
-                    let nodeImageData = ctx.getImageData(0, 0, nodeImgDimensions.x, nodeImgDimensions.y);
-                    let offset = index * dataLength;
-                    worldImageData.set(nodeImageData.data, offset);
-                    const worldId = index;
-                    const world = worldData[worldId];
-                    const worldName = !world.hidden ? getLocalizedLabel(world.title, world.titleJP) : localizedHiddenLabel;
+    const generation = ++worldTextureLoadGeneration;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d', { alpha: false, willReadFrequently: true });
+    canvas.width = nodeImgDimensions.x;
+    canvas.height = nodeImgDimensions.y;
+    const fontSize = 36;
+    const halfFontSize = fontSize / 2;
+    let lineYOffset;
+    ctx.font = fontSize + 'px MS Gothic';
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 5;
 
-                    ctx.save();
+    const renderWorldImage = (worldId, img) => {
+        const world = worldData[worldId];
+        const offset = worldId * dataLength;
+        const offsetLabels = amount * dataLength;
 
-                    for (let v = 0; v < 3; v++) {
-                        if (v)
-                            ctx.restore();
+        ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, nodeImgDimensions.x, nodeImgDimensions.y);
+        let nodeImageData = ctx.getImageData(0, 0, nodeImgDimensions.x, nodeImgDimensions.y);
+        worldImageData.set(nodeImageData.data, offset);
+        const worldName = !world.hidden ? getLocalizedLabel(world.title, world.titleJP) : localizedHiddenLabel;
 
-                        let textLines = worldName.split(" ");
-                        ctx.fillStyle = nodeTextColors[v];
-                        for (let l = 0; l < textLines.length; l++) {
-                            if (ctx.measureText(textLines[l]).width < nodeImgDimensions.x) {
-                                let mergeIndex = 0;
-                                for (let l2 = l + 1; l2 < textLines.length; l2++) {
-                                    const mergedLine = textLines.slice(l, l2 + 1).join(" ");
-                                    if (ctx.measureText(mergedLine).width < nodeImgDimensions.x)
-                                        mergeIndex = l2;
-                                    else
-                                        break;
-                                }
-                                if (mergeIndex)
-                                    textLines = textLines.slice(0, l).concat([textLines.slice(l, mergeIndex + 1).join(" ")], textLines.slice(mergeIndex + 1));
-                            } else if (textLines[l].indexOf("：") > -1)
-                                textLines = textLines.slice(0, l).concat(textLines[l].replace(/：/g, "： ").split(" ")).concat(textLines.slice(l + 1));
-                        }
-                        for (let l in textLines) {
-                            const textLine = textLines[l];
-                            const lineWidth = ctx.measureText(textLine).width;
-                            !lineYOffset && (lineYOffset = ctx.measureText(textLine).actualBoundingBoxAscent / 2);
-                            const lineX = (nodeImgDimensions.x - lineWidth) / 2;
-                            const lineY = ((nodeImgDimensions.y / 2) + lineYOffset) - ((textLines.length - 1) * halfFontSize) + l * fontSize;
-                            ctx.strokeText(textLine, lineX, lineY);
-                            ctx.fillText(textLine, lineX, lineY);
-                        }
-                        nodeImageData = ctx.getImageData(0, 0, nodeImgDimensions.x, nodeImgDimensions.y);
-                        worldImageData.set(nodeImageData.data, offsetLabels + offset);
-                        if (!world.removed)
+        ctx.save();
+        for (let v = 0; v < 3; v++) {
+            if (v)
+                ctx.restore();
+
+            let textLines = worldName.split(" ");
+            ctx.fillStyle = nodeTextColors[v];
+            for (let l = 0; l < textLines.length; l++) {
+                if (ctx.measureText(textLines[l]).width < nodeImgDimensions.x) {
+                    let mergeIndex = 0;
+                    for (let l2 = l + 1; l2 < textLines.length; l2++) {
+                        const mergedLine = textLines.slice(l, l2 + 1).join(" ");
+                        if (ctx.measureText(mergedLine).width < nodeImgDimensions.x)
+                            mergeIndex = l2;
+                        else
                             break;
                     }
-                    index++;
-                });
-                canvas.remove();
-                resolve();
-            })
-            .catch(err => reject(err));
+                    if (mergeIndex)
+                        textLines = textLines.slice(0, l).concat([textLines.slice(l, mergeIndex + 1).join(' ')], textLines.slice(mergeIndex + 1));
+                } else if (textLines[l].indexOf('：') > -1)
+                    textLines = textLines.slice(0, l).concat(textLines[l].replace(/：/g, '： ').split(' ')).concat(textLines.slice(l + 1));
+            }
+            for (let l in textLines) {
+                const textLine = textLines[l];
+                const lineWidth = ctx.measureText(textLine).width;
+                !lineYOffset && (lineYOffset = ctx.measureText(textLine).actualBoundingBoxAscent / 2);
+                const lineX = (nodeImgDimensions.x - lineWidth) / 2;
+                const lineY = ((nodeImgDimensions.y / 2) + lineYOffset) - ((textLines.length - 1) * halfFontSize) + l * fontSize;
+                ctx.strokeText(textLine, lineX, lineY);
+                ctx.fillText(textLine, lineX, lineY);
+            }
+            nodeImageData = ctx.getImageData(0, 0, nodeImgDimensions.x, nodeImgDimensions.y);
+            worldImageData.set(nodeImageData.data, offsetLabels + offset);
+            if (!world.removed)
+                break;
+        }
+    };
+
+    const placeholder = document.createElement('canvas');
+    placeholder.width = nodeImgDimensions.x;
+    placeholder.height = nodeImgDimensions.y;
+    const placeholderContext = placeholder.getContext('2d');
+    placeholderContext.fillStyle = '#222';
+    placeholderContext.fillRect(0, 0, placeholder.width, placeholder.height);
+    for (let worldId = 0; worldId < amount; worldId++)
+        renderWorldImage(worldId, placeholder);
+    placeholder.remove();
+    canvas.remove();
+
+    const imageJobs = worldData.map(world => !world.hidden ? world.filename : hiddenWorldImageUrl);
+    let nextImageJob = 0;
+    const loadNextImage = () => {
+        if (generation !== worldTextureLoadGeneration || nextImageJob >= imageJobs.length)
+            return;
+        const worldId = nextImageJob++;
+        getImageRawData([imageJobs[worldId]])[0].then(img => {
+            if (generation !== worldTextureLoadGeneration)
+                return;
+            try {
+                renderWorldImage(worldId, img);
+                updateLoadedWorldTexture(worldId);
+            } catch (err) {
+                console.error(`Failed to update image for ${worldData[worldId].title}`, err);
+            }
+            window.setTimeout(loadNextImage, 0);
+        }).catch(err => {
+            console.error(`Failed to load image for ${worldData[worldId].title}`, err);
+            window.setTimeout(loadNextImage, 0);
+        });
+    };
+    for (let i = 0; i < Math.min(6, imageJobs.length); i++)
+        window.setTimeout(loadNextImage, 0);
+
+    return Promise.resolve();
+}
+
+function updateLoadedWorldTexture(worldId) {
+    if (!graph || !nodeObjects.length)
+        return;
+
+    graph.graphData().nodes.forEach((node, index) => {
+        if (node.id !== worldId)
+            return;
+        const chunkId = Math.trunc(index / glMaxTextureSize);
+        const localIndex = index % glMaxTextureSize;
+        const nodeObject = nodeObjects[chunkId];
+        if (!nodeObject)
+            return;
+
+        const texture = nodeObject.material.uniforms.diffuse.value;
+        const layerLength = nodeImgDimensions.x * nodeImgDimensions.y * 4;
+        const baseOffset = localIndex * layerLength;
+        texture.image.data.set(worldImageData.subarray(worldId * layerLength, (worldId + 1) * layerLength), baseOffset);
+        if (is2d) {
+            const labelOffset = (texture.image.depth / 2 + localIndex) * layerLength;
+            const labelSourceOffset = (worldData.length + worldId) * layerLength;
+            texture.image.data.set(worldImageData.subarray(labelSourceOffset, labelSourceOffset + layerLength), labelOffset);
+        }
+        texture.needsUpdate = true;
     });
 }
 

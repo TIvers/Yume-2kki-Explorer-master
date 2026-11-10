@@ -2,7 +2,9 @@ const { Worker, isMainThread, parentPort } = require('worker_threads');
 
 const express = require('express');
 const app = isMainThread ? express() : null;
-const port = 5000;
+const port = Number(process.env.PORT || 5000);
+if (!Number.isInteger(port) || port < 1 || port > 65535)
+    throw new Error('PORT must be an integer between 1 and 65535');
 const _ = require('lodash');
 const superagent = require('superagent');
 const fs = require('fs');
@@ -34,10 +36,13 @@ const startLocation = "Urotsuki's Room";
 
 /**
  * Офлайн: URL yume.wiki / local|url → ./images/<folder>/...
- * Если локального файла нет — оставляем исходный URL.
+ * USE_LOCAL_IMAGES=true принудительно использует только файлы на диске,
+ * даже при серверной БД; отсутствующие файлы не переключаются на Wiki URL.
+ * В обычном офлайн-режиме отсутствие файла сохраняет исходный URL.
  * USE_LOCAL_IMAGES=false принудительно оставляет wiki URL.
  */
-const USE_LOCAL_IMAGES = process.env.USE_LOCAL_IMAGES !== 'false' && !isRemote;
+const LOCAL_IMAGES_ONLY = process.env.USE_LOCAL_IMAGES === 'true';
+const USE_LOCAL_IMAGES = LOCAL_IMAGES_ONLY || (process.env.USE_LOCAL_IMAGES !== 'false' && !isRemote);
 
 // Чтобы не спамить один и тот же файл при каждом /data
 const _localImageLogOnce = new Set();
@@ -52,12 +57,15 @@ function logLocalImageOnce(key, message) {
 function toLocalImagePath(filename, folder) {
     if (!filename || typeof filename !== 'string')
         return filename;
-    if (!USE_LOCAL_IMAGES)
-        return filename;
 
     // Формат worlds: "Title.png|https://yume.wiki/..."
     if (filename.indexOf('|') > -1) {
-        const localPart = filename.slice(0, filename.indexOf('|'));
+        const separatorIndex = filename.indexOf('|');
+        const localPart = filename.slice(0, separatorIndex);
+        const remote = filename.slice(separatorIndex + 1);
+        if (!USE_LOCAL_IMAGES)
+            return remote || filename;
+
         const diskPath = `public/images/${folder}/${localPart}`;
         if (fs.existsSync(diskPath)) {
             logLocalImageOnce(
@@ -68,11 +76,15 @@ function toLocalImagePath(filename, folder) {
         }
         logLocalImageOnce(
             `miss:${folder}/${localPart}`,
-            `[local] нет файла, remote URL: ${folder}/${localPart}`
+            `[local] нет файла: ${folder}/${localPart}`
         );
-        const remote = filename.slice(filename.indexOf('|') + 1);
-        return remote || `./images/${folder}/${localPart}`;
+        return LOCAL_IMAGES_ONLY
+            ? `./images/${folder}/${localPart}`
+            : remote || `./images/${folder}/${localPart}`;
     }
+
+    if (!USE_LOCAL_IMAGES)
+        return filename;
 
     if (filename.startsWith('./images/') || filename.startsWith('/images/'))
         return filename;
@@ -101,9 +113,9 @@ function toLocalImagePath(filename, folder) {
 
     logLocalImageOnce(
         `miss:${folder}/${basename}`,
-        `[local] нет файла, оставляем URL: ${folder}/${basename}`
+        `[local] нет файла: ${folder}/${basename}`
     );
-    return filename;
+    return LOCAL_IMAGES_ONLY ? `./images/${folder}/${basename}` : filename;
 }
 
 let worldDataCache;
@@ -4610,14 +4622,14 @@ function getRandomLocations(count, minDepth, maxDepth, includeRemoved, ignoreSec
 }
 
 if (isMainThread) {
-    if (process.platform === 'linux' && !process.env.EXPLORER_DEV) {
+    if (process.platform === 'linux' && !process.env.EXPLORER_DEV && !process.env.HOST) {
         fs.unlinkSync('./explorer.sock');
         app.listen('./explorer.sock', () => {
             fs.chmod('./explorer.sock', 0o777, () => {});
             console.log('Yume 2kki Explorer app listening on explorer.sock');
         });
     } else
-        app.listen(port, () => console.log(`Yume 2kki Explorer app listening on port ${port}`));
+        app.listen(port, process.env.HOST, () => console.log(`Yume 2kki Explorer app listening on ${process.env.HOST || '0.0.0.0'}:${port}`));
 } else {
     function updateWorldData(reset) {
         return new Promise((resolve, reject) => {
