@@ -13,12 +13,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    runs-on:
-      - self-hosted
-      - linux
-      - x64
-      - yume2kki-deploy
+  build:
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - name: Check out main
@@ -35,6 +31,34 @@ jobs:
           npm ci
           npm run compile
 
+      - name: Upload browser bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-bundle
+          path: |
+            public/js/yume-2kki-explorer.js
+            public/js/yume-2kki-explorer.js.map
+          if-no-files-found: error
+          retention-days: 1
+
+  deploy:
+    needs: build
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - yume2kki-deploy
+    timeout-minutes: 30
+    steps:
+      - name: Check out application source
+        uses: actions/checkout@v4
+
+      - name: Download browser bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: browser-bundle
+          path: public/js
+
       - name: Update application files
         run: |
           rsync -a --no-owner --no-group \
@@ -50,12 +74,12 @@ jobs:
         run: |
           set -euo pipefail
           cd /var/www/Yume-2kki-Explorer-master
-          sudo -n /usr/bin/systemctl stop yume2kki
+          npm ci --omit=dev
           restart_service() {
             sudo -n /usr/bin/systemctl start yume2kki
           }
+          sudo -n /usr/bin/systemctl stop yume2kki
           trap restart_service EXIT
-          npm ci --omit=dev
           sudo -n /usr/bin/systemctl start yume2kki
           trap - EXIT
           /usr/bin/systemctl is-active --quiet yume2kki

@@ -128,7 +128,7 @@ Certbot настроит HTTPS и перенаправление с HTTP. Отк
 
 ## Автоматический деплой через GitHub Actions
 
-Workflow `.github/workflows/deploy.yml` запускается при каждом push в `main`. Для него нужен self-hosted runner на этом же сервере с меткой `yume2kki-deploy`. Runner получает исходники из GitHub, собирает клиентский bundle, копирует файлы в `/var/www/Yume-2kki-Explorer-master/`, устанавливает production-зависимости и перезапускает службу.
+Workflow `.github/workflows/deploy.yml` запускается при каждом push в `main`. Сборка клиентского bundle выполняется на GitHub-hosted runner. Готовые JS и source map передаются как artifact self-hosted runner на сервере; серверный runner получает исходники, копирует их и bundle в `/var/www/Yume-2kki-Explorer-master/`, устанавливает production-зависимости и перезапускает службу.
 
 Runner должен запускаться от пользователя `yume2kki`, который владеет каталогом приложения. Установите системные зависимости runner и `rsync`, затем подготовьте каталог runner:
 
@@ -170,7 +170,7 @@ sudo visudo -cf /etc/sudoers.d/yume2kki-deploy
 sudo chmod 440 /etc/sudoers.d/yume2kki-deploy
 ```
 
-Workflow специально не запускается для pull request. Ограничьте право на push в `main` только доверенными сопровождающими: код, попавший в эту ветку, выполняется на сервере. Во время обновления приложение кратковременно останавливается на время установки production-зависимостей. Каталоги `config/` и `public/images/` не перезаписываются.
+Workflow специально не запускается для pull request. Ограничьте право на push в `main` только доверенными сопровождающими: код, попавший в эту ветку, выполняется на сервере. Сборка и полная установка dev-зависимостей происходят на GitHub-hosted runner; сервер устанавливает только production-зависимости и кратковременно останавливает приложение на время перезапуска. Каталоги `config/` и `public/images/` не перезаписываются.
 
 ## Ручное обновление приложения
 
