@@ -73,6 +73,7 @@ const worldImageCacheTtl = 30 * 24 * 60 * 60 * 1000;
 let worldImageCacheDatabase;
 let worldImageCacheDisabled = false;
 let worldImageCacheWarningShown = false;
+let worldImageMissingWarningShown = false;
 const worldImageLoads = new Map();
 
 const getLocalizedLabel = (enLabel, jaLabel, singleValue) => getLocalizedValue(enLabel, jaLabel, config.lang, singleValue);
@@ -2890,7 +2891,7 @@ function initWorldTextures() {
 
             const { worldId, filename } = imageJobs[nextImageJob++];
             activeImageJobs++;
-            loadWorldImageWithCache(filename).then(image => {
+            loadWorldImageWithCache(filename, placeholder).then(image => {
                 activeImageJobs--;
                 if (generation !== worldTextureLoadGeneration)
                     return;
@@ -3386,7 +3387,7 @@ function decodeCachedWorldImage(blob) {
     });
 }
 
-function loadWorldImageWithCache(url) {
+function loadWorldImageWithCache(url, fallbackImage) {
     if (worldImageLoads.has(url))
         return worldImageLoads.get(url);
 
@@ -3412,6 +3413,13 @@ function loadWorldImageWithCache(url) {
 
         try {
             const response = await fetch(url, { mode: 'cors', credentials: 'omit' });
+            if (response.status === 404) {
+                if (!worldImageMissingWarningShown) {
+                    worldImageMissingWarningShown = true;
+                    console.warn(`[image-cache] World image not found; showing unknown.png instead: ${url}`);
+                }
+                return fallbackImage || getImageRawData([hiddenWorldImageUrl])[0];
+            }
             if (!response.ok)
                 throw new Error(`Image request failed with status ${response.status}`);
             const blob = await response.blob();
