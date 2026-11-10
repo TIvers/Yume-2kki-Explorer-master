@@ -37,7 +37,7 @@ jobs:
 
       - name: Update application files
         run: |
-          rsync -a \
+          rsync -a --no-owner --no-group \
             --exclude='/.git/' \
             --exclude='/.github/' \
             --exclude='/config/' \
