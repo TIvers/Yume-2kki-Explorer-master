@@ -1230,6 +1230,9 @@ function loadOrInitConfig() {
                         case "renderMode":
                             $(".js--render-mode").val(value);
                             break;
+                        case "explorationMode":
+                            $(".js--graph-mode").val(value);
+                            break;
                         case "displayMode":
                             $(".js--display-mode").val(value);
                             if (parseInt(value) >= 2)
@@ -1502,7 +1505,9 @@ function reloadData(update) {
 export let graph;
 let graphResizeObserver;
 
-let contextWorldId = null, startWorldId = null, endWorldId = null, hoverWorldId = null, selectedWorldId = null;
+let contextWorldId = null, startWorldId = null, endWorldId = null, hoverWorldId = null, selectedWorldId = null, pathWorldId = null;
+let miniMapWindow = null;
+let miniMapFallback = null;
 
 let searchWorldIds = [], visibleWorldIds = [];
 
@@ -1544,6 +1549,12 @@ let localizedRoutes;
 let lastRoutePaths = null;
 let localizedWallpaperLabel;
 let localizedBgmTrackLabel;
+let localizedMiniMap = {
+    title: 'Paths: {WORLD}',
+    hint: 'Double-click a map to view its paths',
+    fallback: 'This browser cannot keep the mini-window above other applications.',
+    close: 'Close'
+};
 let localizedNodeIconNew;
 let localizedVersionDetails;
 let localizedVersionDisplayToggle;
@@ -1571,6 +1582,7 @@ let config = {
     uiTheme: "Default_Custom",
     fontStyle: 0,
     renderMode: 0,
+    explorationMode: 0,
     displayMode: 0,
     connMode: 0,
     labelMode: 1,
@@ -1905,6 +1917,23 @@ function initGraph(renderMode, displayMode, paths) {
         return ret;
     });
 
+    if (config.explorationMode === 1) {
+        const pathRootId = getPathWorldId();
+        const pathRadius = Math.max(48, Math.min(window.innerWidth, window.innerHeight) * 0.32);
+        const rootNode = nodes.find(node => node.id === pathRootId);
+        if (rootNode) {
+            rootNode.x = rootNode.y = rootNode.z = 0;
+            rootNode.fx = rootNode.fy = rootNode.fz = 0;
+            const neighborNodes = nodes.filter(node => node.id !== pathRootId);
+            neighborNodes.forEach((node, index) => {
+                const angle = -Math.PI / 2 + (2 * Math.PI * index / neighborNodes.length);
+                node.x = node.fx = Math.cos(angle) * pathRadius;
+                node.y = node.fy = Math.sin(angle) * pathRadius;
+                node.z = node.fz = 0;
+            });
+        }
+    }
+
     const radius = parseInt(Math.min(window.innerWidth, window.innerHeight) / 100);
     const gData = {
         nodes: nodes,
@@ -1952,7 +1981,7 @@ function initGraph(renderMode, displayMode, paths) {
 
     const maxAnisotropy = graph.renderer().capabilities.getMaxAnisotropy();
 
-    if (displayMode < 4)
+    if (displayMode < 4 && config.explorationMode !== 1)
         graph = graph
             .dagMode(displayMode === 0 ? 'td' : displayMode === 1 ? 'lr' : displayMode === 2 ? 'radialin' : 'radialout')
             .dagLevelDistance(displayMode < 2 ? 12 : 24 + radius * (config.sizeDiff + 1));
@@ -2197,8 +2226,12 @@ function initGraph(renderMode, displayMode, paths) {
             if (isWebGL2 && is2d)
                 updateNodeLabels2D();
         })
-        .onNodeClick(node => {
+        .onNodeClick((node, event) => {
             ['x', 'y'].concat(is2d ? [] : ['z']).forEach(d => node[`f${d}`] = node[d]);
+            if (config.explorationMode === 1 && event && event.detail >= 2) {
+                selectPathWorld(node.id);
+                return;
+            }
             if (!node.hidden && (isCtrl || isShift))
                 openWorldWikiPage(node.id, isShift);
             else
@@ -3953,13 +3986,28 @@ function reloadGraph() {
     const pathFinder = new PathFinder(worldData, isDebug, defaultPathIgnoreConnTypeFlags, false, effectsJP);
     const startWorld = startWorldId != null ? worldData[startWorldId] : null;
     const endWorld = endWorldId != null ? worldData[endWorldId] : null;
-    const matchPaths = startWorld && endWorld && startWorld != endWorld
-        ? pathFinder.findPath(startWorld.id, endWorld.id, true, ConnType.NO_ENTRY | ConnType.DEAD_END | ConnType.ISOLATED | ConnType.SHORTCUT, config.pathMode === 0 ? 3 : config.pathMode === 1 ? 5 : 10)
-        : null;
+    let matchPaths = null;
+    if (config.explorationMode === 1) {
+        pathWorldId = getPathWorldId();
+        selectedWorldId = pathWorldId;
+        const pathRoot = worldData[pathWorldId];
+        if (pathRoot) {
+            $('.js--search-world').addClass('selected').val(getLocalizedLabel(pathRoot.title, pathRoot.titleJP));
+            matchPaths = pathRoot.connections
+                .filter(connection => worldData[connection.targetId])
+                .map(connection => [
+                    { id: pathRoot.id, connType: connection.type, typeParams: connection.typeParams },
+                    { id: connection.targetId, connType: null, typeParams: null }
+                ]);
+            if (!matchPaths.length)
+                matchPaths = [[{ id: pathRoot.id, connType: null, typeParams: null }]];
+        }
+    } else if (startWorld && endWorld && startWorld != endWorld)
+        matchPaths = pathFinder.findPath(startWorld.id, endWorld.id, true, ConnType.NO_ENTRY | ConnType.DEAD_END | ConnType.ISOLATED | ConnType.SHORTCUT, config.pathMode === 0 ? 3 : config.pathMode === 1 ? 5 : 10);
     if (graph)
         graph._destructor();
     initGraph(config.renderMode, config.displayMode, matchPaths);
-    updateRoutePanel(matchPaths);
+    updateRoutePanel(config.explorationMode === 1 ? null : matchPaths);
     if (urlSearchParams.has('location')) {
         const worldName = urlSearchParams.get('location');
         const node = graph.graphData().nodes.find(n => worldData[n.id].title === worldName);
@@ -3985,6 +4033,145 @@ function reloadGraph() {
             graph.cameraPosition({ x: avgPos.x, y: avgPos.y, z: 1000 }, locationNodes[0], 1000);
         }, 100);
     }
+    refreshPathMiniMap();
+}
+
+function getPathWorldId() {
+    if (config.explorationMode === 1 && pathWorldId != null && worldData[pathWorldId])
+        return pathWorldId;
+    if (selectedWorldId != null && worldData[selectedWorldId])
+        return selectedWorldId;
+    if (pathWorldId != null && worldData[pathWorldId])
+        return pathWorldId;
+    const nexus = worldData.find(world => world.title === 'Nexus');
+    return nexus ? nexus.id : worldData.length ? worldData[0].id : null;
+}
+
+function selectPathWorld(worldId) {
+    if (!worldData[worldId])
+        return;
+    pathWorldId = worldId;
+    selectedWorldId = worldId;
+    config.explorationMode = 1;
+    $('.js--graph-mode').val(config.explorationMode);
+    $('.js--search-world').addClass('selected').val(getLocalizedLabel(worldData[worldId].title, worldData[worldId].titleJP));
+    updateConfig(config);
+    reloadGraph();
+}
+
+function escapeMiniMapText(value) {
+    return String(value).replace(/[&<>"']/g, character => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    })[character]);
+}
+
+function renderPathMiniMap(container, worldId, isPictureInPicture) {
+    const world = worldData[worldId];
+    if (!container || !world)
+        return;
+    const label = getLocalizedLabel(world.title, world.titleJP);
+    const title = localizedMiniMap.title.replace('{WORLD}', escapeMiniMapText(label));
+    const connections = world.connections.filter(connection => worldData[connection.targetId]);
+    const radius = 82;
+    const center = 122;
+    const points = connections.map((connection, index) => {
+        const angle = -Math.PI / 2 + 2 * Math.PI * index / Math.max(connections.length, 1);
+        return {
+            connection,
+            x: center + Math.cos(angle) * radius,
+            y: center + Math.sin(angle) * radius,
+            label: getLocalizedLabel(worldData[connection.targetId].title, worldData[connection.targetId].titleJP)
+        };
+    });
+    const lines = points.map(point => {
+        const isOneWay = !!(point.connection.type & ConnType.ONE_WAY);
+        return `<line x1="${center}" y1="${center}" x2="${point.x}" y2="${point.y}"${isOneWay ? ' marker-end="url(#path-arrow)"' : ''} />`;
+    }).join('');
+    const nodes = points.map(point => {
+        const targetId = point.connection.targetId;
+        const titleText = escapeMiniMapText(point.label);
+        return `<g class="path-mini-node" data-world-id="${targetId}" tabindex="0" role="button"><title>${titleText}</title><circle cx="${point.x}" cy="${point.y}" r="5" /><text x="${point.x}" y="${point.y + 3}">›</text></g>`;
+    }).join('');
+    const fallbackNote = isPictureInPicture ? '' : `<div class="path-mini-fallback">${escapeMiniMapText(localizedMiniMap.fallback)}</div>`;
+    const closeButton = isPictureInPicture ? '' : `<button class="path-mini-close" type="button">${escapeMiniMapText(localizedMiniMap.close)}</button>`;
+
+    container.innerHTML = `<section class="path-mini-shell"><header class="path-mini-header"><span>${title}</span>${closeButton}</header><svg class="path-mini-graph" viewBox="0 0 244 244" role="img" aria-label="${title}"><defs><pattern id="path-grid" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M 36 0 L 0 0 0 36" fill="none" stroke="#1b1e23" stroke-width="1" /></pattern><marker id="path-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#087db2" /></marker></defs><rect width="244" height="244" fill="#08090c" /><rect width="244" height="244" fill="url(#path-grid)" />${lines}${nodes}<g class="path-mini-root"><circle cx="${center}" cy="${center}" r="7" /><rect x="${center - 3}" y="${center - 3}" width="6" height="6" /></g></svg><footer class="path-mini-hint">${escapeMiniMapText(localizedMiniMap.hint)}</footer>${fallbackNote}</section>`;
+    container.querySelectorAll('.path-mini-node').forEach(node => {
+        node.addEventListener('dblclick', event => {
+            event.preventDefault();
+            selectPathWorld(parseInt(node.dataset.worldId, 10));
+        });
+        node.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                selectPathWorld(parseInt(node.dataset.worldId, 10));
+            }
+        });
+    });
+    const close = container.querySelector('.path-mini-close');
+    if (close)
+        close.addEventListener('click', closePathMiniMap);
+}
+
+function refreshPathMiniMap() {
+    const worldId = getPathWorldId();
+    if (miniMapWindow && !miniMapWindow.closed) {
+        renderPathMiniMap(miniMapWindow.document.getElementById('path-mini-container'), worldId, true);
+    } else if (miniMapFallback && miniMapFallback.isConnected)
+        renderPathMiniMap(miniMapFallback, worldId, false);
+}
+
+function closePathMiniMap() {
+    if (miniMapWindow && !miniMapWindow.closed)
+        miniMapWindow.close();
+    miniMapWindow = null;
+    if (miniMapFallback) {
+        miniMapFallback.remove();
+        miniMapFallback = null;
+    }
+}
+
+async function openPathMiniMap() {
+    if (!worldData || !worldData.length) {
+        console.error('Cannot open the mini-map before world data has loaded.');
+        return;
+    }
+    if (miniMapWindow && !miniMapWindow.closed) {
+        closePathMiniMap();
+        return;
+    }
+    if (miniMapFallback) {
+        closePathMiniMap();
+        return;
+    }
+    const worldId = getPathWorldId();
+    if (window.documentPictureInPicture && window.documentPictureInPicture.requestWindow) {
+        try {
+            miniMapWindow = await window.documentPictureInPicture.requestWindow({ width: 260, height: 292 });
+            miniMapWindow.document.title = localizedMiniMap.title.replace('{WORLD}', worldData[worldId].title);
+            miniMapWindow.document.head.innerHTML = `<meta name="viewport" content="width=device-width, initial-scale=1"><style>${getPathMiniMapStyles()}</style>`;
+            miniMapWindow.document.body.innerHTML = '<div id="path-mini-container"></div>';
+            miniMapWindow.addEventListener('pagehide', () => {
+                miniMapWindow = null;
+            }, { once: true });
+            renderPathMiniMap(miniMapWindow.document.getElementById('path-mini-container'), worldId, true);
+            return;
+        } catch (error) {
+            console.error('Unable to open the mini-map in Picture-in-Picture mode; showing it in the page instead.', error);
+        }
+    }
+    miniMapFallback = document.createElement('div');
+    miniMapFallback.className = 'path-mini-fallback-window';
+    document.body.appendChild(miniMapFallback);
+    renderPathMiniMap(miniMapFallback, worldId, false);
+}
+
+function getPathMiniMapStyles() {
+    return 'html,body,#path-mini-container{width:100%;height:100%;margin:0;overflow:hidden;background:#08090c;color:#ddd;font:12px Verdana,sans-serif}.path-mini-shell{height:100%;display:flex;flex-direction:column;background:#08090c}.path-mini-header{height:28px;display:flex;align-items:center;justify-content:space-between;padding:0 8px;color:#ddd;background:#101217;white-space:nowrap;overflow:hidden}.path-mini-graph{display:block;width:100%;flex:1;min-height:0}.path-mini-graph line{stroke:#087db2;stroke-width:1}.path-mini-node{cursor:pointer;outline:none}.path-mini-node circle{fill:#07090d;stroke:#0a8dc8;stroke-width:1}.path-mini-node text{fill:#c8efff;font:bold 10px sans-serif;text-anchor:middle;pointer-events:none}.path-mini-node:hover circle,.path-mini-node:focus circle{fill:#087db2;stroke:#c8efff}.path-mini-root circle{fill:#f43246;stroke:#ff7482;stroke-width:1}.path-mini-root rect{fill:#f3a347}.path-mini-hint{padding:4px 8px;color:#aaa;text-align:center}.path-mini-fallback-window{position:fixed;z-index:2147483647;right:12px;bottom:12px;width:260px;height:292px;border:1px solid #3a404a;box-shadow:0 4px 18px #000b}.path-mini-fallback{padding:4px 8px;color:#e3c677;font-size:10px;text-align:center}.path-mini-close{margin-left:8px;color:#ddd;background:#282c33;border:1px solid #636a75;cursor:pointer}';
 }
 
 // --- Панель «Быстрые маршруты» в верхней панели: до 3 самых коротких маршрутов Карта 1 ➜ Карта 2 ➜ Карта 3 ---
@@ -4130,6 +4317,9 @@ function initLocalization(isInitial) {
             localizedEffectLabel = getLocalizedEffectLabel(data.effectLabel);
             localizedMenuThemeLabel = data.menuThemeLabel || { number: '#', location: data.effectLabel.location };
             localizedRoutes = data.routes || { title: 'Text routes', inaccessible: 'No accessible route found' };
+            localizedMiniMap = data.miniMap || localizedMiniMap;
+            if (miniMapWindow || miniMapFallback)
+                refreshPathMiniMap();
             if (lastRoutePaths && worldData)
                 updateRoutePanel(lastRoutePaths);
             localizedWallpaperLabel = getLocalizedWallpaperLabel(data.wallpaperLabel);
@@ -4297,6 +4487,10 @@ function initWorldSearch() {
         onSelect: function (selectedWorld) {
             $search.addClass("selected");
             const worldId = worldsByName[selectedWorld.value].id;
+            if (config.explorationMode === 1) {
+                selectPathWorld(worldId);
+                return;
+            }
             trySelectNode(graph.graphData().nodes.find(n => n.id === worldId), true, true);
         },
         onHide: function () {
@@ -5538,6 +5732,17 @@ function initControls() {
             reloadGraph();
     });
 
+    $(".js--graph-mode").on("change", function () {
+        config.explorationMode = parseInt($(this).val());
+        if (config.explorationMode === 1) {
+            pathWorldId = selectedWorldId != null ? selectedWorldId : getPathWorldId();
+            selectedWorldId = pathWorldId;
+        }
+        updateConfig(config);
+        if (worldData)
+            reloadGraph();
+    });
+
     $(".js--display-mode").on("change", function () {
         config.displayMode = parseInt($(this).val());
         updateConfig(config);
@@ -5710,10 +5915,13 @@ function initControls() {
         endWorldId = null;
         hoverWorldId = null;
         selectedWorldId = null;
+        pathWorldId = null;
         selectedAuthor = null;
         if (worldData)
             reloadGraph();
     });
+
+    $(".js--mini-map").on("click", openPathMiniMap);
 
     $(".js--help").on("click", function () {
         if ($(".js--help-modal:visible").length)

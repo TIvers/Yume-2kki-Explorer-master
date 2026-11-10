@@ -58,6 +58,9 @@
         "reset": {
             "name": "리셋"
         },
+        "miniMap": {
+            "name": "경로 미니 창"
+        },
         "help": {
             "name": "도움말"
         }
@@ -159,6 +162,13 @@
             "values": {
                 "2d": "2D",
                 "3d": "3D"
+            }
+        },
+        "explorationMode": {
+            "name": "맵 모드:",
+            "values": {
+                "all": "모든 맵",
+                "paths": "경로"
             }
         },
         "displayMode": {
@@ -266,6 +276,12 @@
     "routes": {
         "title": "텍스트 경로",
         "inaccessible": "이동 가능한 경로를 찾을 수 없습니다"
+    },
+    "miniMap": {
+        "title": "경로: {WORLD}",
+        "hint": "맵을 두 번 클릭하여 경로를 확인하세요",
+        "fallback": "이 브라우저에서는 다른 앱 위에 창을 표시할 수 없습니다.",
+        "close": "닫기"
     },
     "menuThemeLabel": {
         "number": "#",

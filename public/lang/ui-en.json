@@ -58,6 +58,9 @@
         "reset": {
             "name": "Reset"
         },
+        "miniMap": {
+            "name": "Path mini-window"
+        },
         "help": {
             "name": "Help"
         }
@@ -160,6 +163,13 @@
             "values": {
                 "2d": "2D",
                 "3d": "3D"
+            }
+        },
+        "explorationMode": {
+            "name": "Map Mode:",
+            "values": {
+                "all": "All maps",
+                "paths": "Paths"
             }
         },
         "displayMode": {
@@ -267,6 +277,12 @@
     "routes": {
         "title": "Text routes",
         "inaccessible": "No accessible route found"
+    },
+    "miniMap": {
+        "title": "Paths: {WORLD}",
+        "hint": "Double-click a map to view its paths",
+        "fallback": "This browser cannot keep the mini-window above other applications.",
+        "close": "Close"
     },
     "menuThemeLabel": {
         "number": "#",

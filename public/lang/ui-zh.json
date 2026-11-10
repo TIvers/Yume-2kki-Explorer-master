@@ -58,6 +58,9 @@
         "reset": {
             "name": "重置"
         },
+        "miniMap": {
+            "name": "路径迷你窗口"
+        },
         "help": {
             "name": "帮助"
         }
@@ -159,6 +162,13 @@
             "values": {
                 "2d": "２Ｄ",
                 "3d": "３Ｄ"
+            }
+        },
+        "explorationMode": {
+            "name": "地图模式",
+            "values": {
+                "all": "所有地图",
+                "paths": "路径"
             }
         },
         "displayMode": {
@@ -266,6 +276,12 @@
     "routes": {
         "title": "文字路线",
         "inaccessible": "未找到可用路线"
+    },
+    "miniMap": {
+        "title": "路径：{WORLD}",
+        "hint": "双击地图以查看该地图的路径",
+        "fallback": "此浏览器无法让迷你窗口置于其他应用程序之上。",
+        "close": "关闭"
     },
     "menuThemeLabel": {
         "number": "No.",

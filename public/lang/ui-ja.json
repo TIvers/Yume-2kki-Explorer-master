@@ -58,6 +58,9 @@
         "reset": {
             "name": "リセット"
         },
+        "miniMap": {
+            "name": "ルート ミニウィンドウ"
+        },
         "help": {
             "name": "ヘルプ"
         }
@@ -160,6 +163,13 @@
             "values": {
                 "2d": "２Ｄ",
                 "3d": "３Ｄ"
+            }
+        },
+        "explorationMode": {
+            "name": "マップ モード",
+            "values": {
+                "all": "すべてのマップ",
+                "paths": "ルート"
             }
         },
         "displayMode": {
@@ -267,6 +277,12 @@
     "routes": {
         "title": "テキストルート",
         "inaccessible": "到達可能なルートが見つかりません"
+    },
+    "miniMap": {
+        "title": "ルート: {WORLD}",
+        "hint": "マップをダブルクリックしてルートを表示",
+        "fallback": "このブラウザーでは他のアプリの前面にウィンドウを表示できません。",
+        "close": "閉じる"
     },
     "menuThemeLabel": {
         "number": "No.",

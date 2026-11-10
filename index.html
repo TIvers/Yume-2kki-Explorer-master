@@ -279,6 +279,13 @@
                         <input name="searchWorld" type="text" class="js--world-input js--search-world" />
                     </div>
                     <div class="control reverse-control">
+                        <select name="graphMode" class="js--graph-mode">
+                            <option data-localize="settings.explorationMode.values.all" value="0" selected>All maps</option>
+                            <option data-localize="settings.explorationMode.values.paths" value="1">Paths</option>
+                        </select>
+                        <label data-localize="settings.explorationMode.name" class="noselect">Map Mode:</label>
+                    </div>
+                    <div class="control reverse-control">
                         <select name="author" class="js--author">
                             <option data-localize="controls.author.values.null" value="null">All</option>
                         </select>
@@ -300,6 +307,7 @@
                     </div>
                     <div class="control">
                         <button data-localize="controls.reset.name" class="js--reset noselect">Reset</button>
+                        <button data-localize="controls.miniMap.name" class="js--mini-map noselect">Mini-map</button>
                         <button data-localize="controls.help.name" class="js--help noselect">Help</button>
                     </div>
                 </div>
