@@ -52,6 +52,8 @@ jobs:
     steps:
       - name: Check out application source
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Download browser bundle
         uses: actions/download-artifact@v4
@@ -70,11 +72,44 @@ jobs:
             --exclude='/venv/' \
             ./ /var/www/Yume-2kki-Explorer-master/
 
-      - name: Install production dependencies and restart
+      - name: Check whether production dependencies changed
+        id: dependencies
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$BEFORE_SHA" || "$BEFORE_SHA" =~ ^0+$ ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          elif git diff --quiet "$BEFORE_SHA" "$GITHUB_SHA" -- package.json package-lock.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            diff_status=$?
+            if [[ "$diff_status" -eq 1 ]]; then
+              echo "changed=true" >> "$GITHUB_OUTPUT"
+            else
+              exit "$diff_status"
+            fi
+          fi
+
+      - name: Install production dependencies
+        if: steps.dependencies.outputs.changed == 'true'
         run: |
           set -euo pipefail
           cd /var/www/Yume-2kki-Explorer-master
+          restart_service() {
+            sudo -n /usr/bin/systemctl start yume2kki
+          }
+          trap restart_service EXIT
+          sudo -n /usr/bin/systemctl stop yume2kki
           npm ci --omit=dev
+          sudo -n /usr/bin/systemctl start yume2kki
+          trap - EXIT
+          /usr/bin/systemctl is-active --quiet yume2kki
+
+      - name: Restart application without dependency changes
+        if: steps.dependencies.outputs.changed != 'true'
+        run: |
+          set -euo pipefail
           restart_service() {
             sudo -n /usr/bin/systemctl start yume2kki
           }
