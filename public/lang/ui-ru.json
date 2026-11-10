@@ -350,7 +350,7 @@
         "reportBug": "Сообщить об Ошибке"
     },
     "footer": {
-        "about": "Yume 2kki Explorer вер. {VERSION} от FlashfyreDev",
+        "about": "Yume 2kki Explorer вер. {VERSION} от FlashfyreDev · modernized by TIvers",
         "lastUpdate": "Данные обновлены {LAST_UPDATE}",
         "lastFullUpdate": "Данные перезагружены {LAST_FULL_UPDATE}"
     },

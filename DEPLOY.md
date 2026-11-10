@@ -126,7 +126,53 @@ Certbot настроит HTTPS и перенаправление с HTTP. Отк
 
 При первом открытии приложение автоматически создаст таблицы и запустит первоначальную загрузку данных из Yume 2kki Wiki. Она может занять несколько минут; статус можно смотреть командой `sudo journalctl -u yume2kki -f`.
 
-## Обновление приложения
+## Автоматический деплой через GitHub Actions
+
+Workflow `.github/workflows/deploy.yml` запускается при каждом push в `main`. Для него нужен self-hosted runner на этом же сервере с меткой `yume2kki-deploy`. Runner получает исходники из GitHub, собирает клиентский bundle, копирует файлы в `/var/www/Yume-2kki-Explorer-master/`, устанавливает production-зависимости и перезапускает службу.
+
+Runner должен запускаться от пользователя `yume2kki`, который владеет каталогом приложения. Установите системные зависимости runner и `rsync`, затем подготовьте каталог runner:
+
+```sh
+sudo apt install -y rsync
+sudo mkdir -p /opt/actions-runner
+sudo chown -R yume2kki:yume2kki /opt/actions-runner
+```
+
+В настройках GitHub репозитория откройте **Settings → Actions → Runners → New self-hosted runner**, выберите Linux x64 и выполните показанные GitHub команды загрузки и настройки runner от пользователя `yume2kki`. При настройке добавьте пользовательскую метку `yume2kki-deploy`. Регистрационный token краткосрочный: не сохраняйте его в репозитории и не вставляйте в workflow. Установите runner как системную службу:
+
+```sh
+sudo -u yume2kki -H bash
+cd /opt/actions-runner
+# Выполните здесь download/configure команды из GitHub UI, добавив метку yume2kki-deploy.
+exit
+cd /opt/actions-runner
+sudo ./svc.sh install yume2kki
+sudo ./svc.sh start
+sudo ./svc.sh status
+```
+
+Разрешите runner только запуск и остановку приложения, без полного доступа через `sudo`. Создайте правило:
+
+```sh
+sudo visudo -f /etc/sudoers.d/yume2kki-deploy
+```
+
+Добавьте в файл:
+
+```text
+yume2kki ALL=(root) NOPASSWD: /usr/bin/systemctl stop yume2kki, /usr/bin/systemctl start yume2kki
+```
+
+Проверьте правило и права:
+
+```sh
+sudo visudo -cf /etc/sudoers.d/yume2kki-deploy
+sudo chmod 440 /etc/sudoers.d/yume2kki-deploy
+```
+
+Workflow специально не запускается для pull request. Ограничьте право на push в `main` только доверенными сопровождающими: код, попавший в эту ветку, выполняется на сервере. Во время обновления приложение кратковременно останавливается на время установки production-зависимостей. Каталоги `config/` и `public/images/` не перезаписываются.
+
+## Ручное обновление приложения
 
 Загрузите новые файлы в `~/yume2kki-upload`, затем выполните:
 

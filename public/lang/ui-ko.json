@@ -350,7 +350,7 @@
         "reportBug": "버그 제보하기"
     },
     "footer": {
-        "about": "유메2키 익스플로러 {VERSION} 버전 by FlashfyreDev",
+        "about": "유메2키 익스플로러 {VERSION} 버전 by FlashfyreDev · modernized by TIvers",
         "lastUpdate": "{LAST_UPDATE}에 데이터 업데이트 함",
         "lastFullUpdate": "{LAST_FULL_UPDATE}에 데이터 리셋 함"
     },

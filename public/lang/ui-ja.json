@@ -351,7 +351,7 @@
         "reportBug": "バグを報告"
     },
     "footer": {
-        "about": "ゆめ２っきエクスプローラーver{VERSION} by FlashfyreDev",
+        "about": "ゆめ２っきエクスプローラーver{VERSION} by FlashfyreDev · modernized by TIvers",
         "lastUpdate": "データ最終更新日：{LAST_UPDATE}",
         "lastFullUpdate": "データ最終置換日：{LAST_FULL_UPDATE}"
     },

@@ -1,0 +1,61 @@
+name: Deploy to production
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: yume2kki-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - yume2kki-deploy
+    timeout-minutes: 30
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies and build
+        run: |
+          npm ci
+          npm run compile
+
+      - name: Update application files
+        run: |
+          rsync -a \
+            --exclude='/.git/' \
+            --exclude='/.github/' \
+            --exclude='/config/' \
+            --exclude='/node_modules/' \
+            --exclude='/public/images/' \
+            --exclude='/venv/' \
+            ./ /var/www/Yume-2kki-Explorer-master/
+
+      - name: Install production dependencies and restart
+        run: |
+          set -euo pipefail
+          cd /var/www/Yume-2kki-Explorer-master
+          sudo -n /usr/bin/systemctl stop yume2kki
+          restart_service() {
+            sudo -n /usr/bin/systemctl start yume2kki
+          }
+          trap restart_service EXIT
+          npm ci --omit=dev
+          sudo -n /usr/bin/systemctl start yume2kki
+          trap - EXIT
+          /usr/bin/systemctl is-active --quiet yume2kki

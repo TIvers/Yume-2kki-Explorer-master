@@ -350,7 +350,7 @@
         "reportBug": "BUG反馈"
     },
     "footer": {
-        "about": "梦２记导航　版本号：{VERSION} 作者：FlashfyreDev",
+        "about": "梦２记导航　版本号：{VERSION} 作者：FlashfyreDev · modernized by TIvers",
         "lastUpdate": "最近一次数据更新：{LAST_UPDATE}",
         "lastFullUpdate": "最近一次数据迭代：{LAST_FULL_UPDATE}"
     },

@@ -351,7 +351,7 @@
         "reportBug": "Report a Bug"
     },
     "footer": {
-        "about": "Yume 2kki Explorer v{VERSION} by FlashfyreDev",
+        "about": "Yume 2kki Explorer v{VERSION} by FlashfyreDev · modernized by TIvers",
         "lastUpdate": "Data updated on {LAST_UPDATE}",
         "lastFullUpdate": "Data reset on {LAST_FULL_UPDATE}"
     },

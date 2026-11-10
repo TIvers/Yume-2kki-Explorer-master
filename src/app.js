@@ -67,6 +67,13 @@ THREE.ImageLoader.prototype.load = function (url, onLoad, onProgress, onError) {
 };
 
 const imageLoader = new THREE.ImageLoader();
+const worldImageCacheName = 'yume-2kki-world-images';
+const worldImageCacheVersion = 1;
+const worldImageCacheTtl = 30 * 24 * 60 * 60 * 1000;
+let worldImageCacheDatabase;
+let worldImageCacheDisabled = false;
+let worldImageCacheWarningShown = false;
+const worldImageLoads = new Map();
 
 const getLocalizedLabel = (enLabel, jaLabel, singleValue) => getLocalizedValue(enLabel, jaLabel, config.lang, singleValue);
 
@@ -1860,11 +1867,11 @@ function initGraph(renderMode, displayMode, paths) {
     });
 
     const images = (paths ? worldData.filter(w => visibleWorldIds.indexOf(w.id) > -1) : worldData).map(d => {
-        const img = imageLoader.load(!d.hidden ? d.filename : hiddenWorldImageUrl);
-        img.id = d.id;
-        img.rId = d.rId;
-        img.title = !d.hidden ? getLocalizedLabel(d.title, d.titleJP) : localizedHiddenLabel;
-        return img;
+        return {
+            id: d.id,
+            rId: d.rId,
+            title: !d.hidden ? getLocalizedLabel(d.title, d.titleJP) : localizedHiddenLabel
+        };
     });
 
     const depthColors = [];
@@ -2781,13 +2788,19 @@ function initWorldTextures() {
     ctx.strokeStyle = 'black';
     ctx.lineWidth = 5;
 
-    const renderWorldImage = (worldId, img) => {
+    const renderWorldImage = (worldId, img, cachedImageData) => {
         const world = worldData[worldId];
         const offset = worldId * dataLength;
         const offsetLabels = amount * dataLength;
 
-        ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, nodeImgDimensions.x, nodeImgDimensions.y);
-        let nodeImageData = ctx.getImageData(0, 0, nodeImgDimensions.x, nodeImgDimensions.y);
+        let nodeImageData;
+        if (cachedImageData) {
+            ctx.putImageData(cachedImageData, 0, 0);
+            nodeImageData = cachedImageData;
+        } else {
+            ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, nodeImgDimensions.x, nodeImgDimensions.y);
+            nodeImageData = ctx.getImageData(0, 0, nodeImgDimensions.x, nodeImgDimensions.y);
+        }
         worldImageData.set(nodeImageData.data, offset);
         const worldName = !world.hidden ? getLocalizedLabel(world.title, world.titleJP) : localizedHiddenLabel;
 
@@ -2827,44 +2840,76 @@ function initWorldTextures() {
             if (!world.removed)
                 break;
         }
+        ctx.restore();
     };
 
-    const placeholder = document.createElement('canvas');
-    placeholder.width = nodeImgDimensions.x;
-    placeholder.height = nodeImgDimensions.y;
-    const placeholderContext = placeholder.getContext('2d');
-    placeholderContext.fillStyle = '#222';
-    placeholderContext.fillRect(0, 0, placeholder.width, placeholder.height);
-    for (let worldId = 0; worldId < amount; worldId++)
-        renderWorldImage(worldId, placeholder);
-    placeholder.remove();
     canvas.remove();
 
-    const imageJobs = worldData.map(world => !world.hidden ? world.filename : hiddenWorldImageUrl);
-    let nextImageJob = 0;
-    const loadNextImage = () => {
-        if (generation !== worldTextureLoadGeneration || nextImageJob >= imageJobs.length)
+    return getImageRawData([hiddenWorldImageUrl])[0].then(placeholder => {
+        if (generation !== worldTextureLoadGeneration)
             return;
-        const worldId = nextImageJob++;
-        getImageRawData([imageJobs[worldId]])[0].then(img => {
-            if (generation !== worldTextureLoadGeneration)
+
+        ctx.drawImage(placeholder, 0, 0, placeholder.width, placeholder.height, 0, 0, nodeImgDimensions.x, nodeImgDimensions.y);
+        const placeholderImageData = ctx.getImageData(0, 0, nodeImgDimensions.x, nodeImgDimensions.y);
+        for (let worldId = 0; worldId < amount; worldId++)
+            renderWorldImage(worldId, placeholder, placeholderImageData);
+
+        const imageJobs = worldData
+            .map((world, worldId) => ({ worldId, filename: world.filename }))
+            .filter(job => !worldData[job.worldId].hidden);
+        const loadedImages = [];
+        let nextImageJob = 0;
+        let activeImageJobs = 0;
+        let updateScheduled = false;
+
+        const processLoadedImage = () => {
+            updateScheduled = false;
+            if (generation !== worldTextureLoadGeneration || loadedImages.length === 0)
                 return;
+
+            const { worldId, image } = loadedImages.shift();
+            startImageJobs();
             try {
-                renderWorldImage(worldId, img);
+                renderWorldImage(worldId, image);
                 updateLoadedWorldTexture(worldId);
             } catch (err) {
                 console.error(`Failed to update image for ${worldData[worldId].title}`, err);
             }
-            window.setTimeout(loadNextImage, 0);
-        }).catch(err => {
-            console.error(`Failed to load image for ${worldData[worldId].title}`, err);
-            window.setTimeout(loadNextImage, 0);
-        });
-    };
-    for (let i = 0; i < Math.min(6, imageJobs.length); i++)
-        window.setTimeout(loadNextImage, 0);
+            if (loadedImages.length)
+                scheduleImageUpdate();
+        };
+        const scheduleImageUpdate = () => {
+            if (!updateScheduled) {
+                updateScheduled = true;
+                window.requestAnimationFrame(processLoadedImage);
+            }
+        };
+        const loadNextImage = () => {
+            if (generation !== worldTextureLoadGeneration || nextImageJob >= imageJobs.length)
+                return;
 
-    return Promise.resolve();
+            const { worldId, filename } = imageJobs[nextImageJob++];
+            activeImageJobs++;
+            loadWorldImageWithCache(filename).then(image => {
+                activeImageJobs--;
+                if (generation !== worldTextureLoadGeneration)
+                    return;
+                loadedImages.push({ worldId, image });
+                scheduleImageUpdate();
+                startImageJobs();
+            }).catch(err => {
+                activeImageJobs--;
+                console.error(`Failed to load image for ${worldData[worldId].title}`, err);
+                startImageJobs();
+            });
+        };
+
+        const startImageJobs = () => {
+            while (activeImageJobs + loadedImages.length < 6 && nextImageJob < imageJobs.length)
+                loadNextImage();
+        };
+        startImageJobs();
+    });
 }
 
 function updateLoadedWorldTexture(worldId) {
@@ -2880,17 +2925,50 @@ function updateLoadedWorldTexture(worldId) {
         if (!nodeObject)
             return;
 
+        const renderer = graph.renderer();
         const texture = nodeObject.material.uniforms.diffuse.value;
+        const textureProperties = renderer.properties.get(texture);
         const layerLength = nodeImgDimensions.x * nodeImgDimensions.y * 4;
         const baseOffset = localIndex * layerLength;
-        texture.image.data.set(worldImageData.subarray(worldId * layerLength, (worldId + 1) * layerLength), baseOffset);
+        const imageData = worldImageData.subarray(worldId * layerLength, (worldId + 1) * layerLength);
+        texture.image.data.set(imageData, baseOffset);
+        uploadWorldTextureLayer(renderer, texture, textureProperties, baseOffset / layerLength, imageData);
         if (is2d) {
             const labelOffset = (texture.image.depth / 2 + localIndex) * layerLength;
             const labelSourceOffset = (worldData.length + worldId) * layerLength;
-            texture.image.data.set(worldImageData.subarray(labelSourceOffset, labelSourceOffset + layerLength), labelOffset);
+            const labelData = worldImageData.subarray(labelSourceOffset, labelSourceOffset + layerLength);
+            texture.image.data.set(labelData, labelOffset);
+            uploadWorldTextureLayer(renderer, texture, textureProperties, labelOffset / layerLength, labelData);
         }
-        texture.needsUpdate = true;
     });
+}
+
+function uploadWorldTextureLayer(renderer, texture, textureProperties, layer, imageData) {
+    const gl = renderer.getContext();
+    const gpuTexture = textureProperties.__webglTexture;
+    if (!gpuTexture) {
+        texture.needsUpdate = true;
+        return;
+    }
+
+    renderer.state.bindTexture(gl.TEXTURE_2D_ARRAY, gpuTexture);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, texture.flipY);
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, texture.premultiplyAlpha);
+    gl.pixelStorei(gl.UNPACK_ALIGNMENT, texture.unpackAlignment);
+    gl.pixelStorei(gl.UNPACK_COLORSPACE_CONVERSION_WEBGL, gl.NONE);
+    gl.texSubImage3D(
+        gl.TEXTURE_2D_ARRAY,
+        0,
+        0,
+        0,
+        layer,
+        nodeImgDimensions.x,
+        nodeImgDimensions.y,
+        1,
+        gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        imageData
+    );
 }
 
 function initNodeObjectMaterials() {
@@ -3237,6 +3315,129 @@ function getImageRawData(imageSources) {
             );
         });
     });
+}
+
+function getWorldImageCacheDatabase() {
+    if (worldImageCacheDisabled || !window.indexedDB)
+        return Promise.reject(new Error('IndexedDB is unavailable'));
+    if (worldImageCacheDatabase)
+        return worldImageCacheDatabase;
+
+    worldImageCacheDatabase = new Promise((resolve, reject) => {
+        const request = window.indexedDB.open(worldImageCacheName, worldImageCacheVersion);
+        request.onupgradeneeded = () => {
+            const database = request.result;
+            if (!database.objectStoreNames.contains('images'))
+                database.createObjectStore('images', { keyPath: 'url' });
+        };
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error || new Error('Failed to open image cache'));
+        request.onblocked = () => reject(new Error('Opening the image cache was blocked by another tab'));
+    }).catch(error => {
+        worldImageCacheDisabled = true;
+        throw error;
+    });
+    return worldImageCacheDatabase;
+}
+
+function readCachedWorldImage(database, url) {
+    return new Promise((resolve, reject) => {
+        const transaction = database.transaction('images', 'readonly');
+        const request = transaction.objectStore('images').get(url);
+        request.onsuccess = () => {
+            const entry = request.result;
+            if (entry && Date.now() - entry.cachedAt < worldImageCacheTtl)
+                resolve(entry.blob);
+            else {
+                if (entry)
+                    database.transaction('images', 'readwrite').objectStore('images').delete(url);
+                resolve(null);
+            }
+        };
+        request.onerror = () => reject(request.error || new Error('Failed to read image cache'));
+    });
+}
+
+function writeCachedWorldImage(database, url, blob) {
+    return new Promise((resolve, reject) => {
+        const transaction = database.transaction('images', 'readwrite');
+        transaction.objectStore('images').put({ url, blob, cachedAt: Date.now() });
+        transaction.oncomplete = resolve;
+        transaction.onerror = () => reject(transaction.error || new Error('Failed to write image cache'));
+        transaction.onabort = () => reject(transaction.error || new Error('Image cache write was aborted'));
+    });
+}
+
+function decodeCachedWorldImage(blob) {
+    return new Promise((resolve, reject) => {
+        const objectUrl = URL.createObjectURL(blob);
+        imageLoader.load(
+            objectUrl,
+            image => {
+                URL.revokeObjectURL(objectUrl);
+                resolve(image);
+            },
+            undefined,
+            error => {
+                URL.revokeObjectURL(objectUrl);
+                reject(error || new Error('Failed to decode cached image'));
+            }
+        );
+    });
+}
+
+function loadWorldImageWithCache(url) {
+    if (worldImageLoads.has(url))
+        return worldImageLoads.get(url);
+
+    const imagePromise = (async () => {
+        let database;
+        try {
+            database = await getWorldImageCacheDatabase();
+            const cachedBlob = await readCachedWorldImage(database, url);
+            if (cachedBlob) {
+                try {
+                    return await decodeCachedWorldImage(cachedBlob);
+                } catch (error) {
+                    console.warn(`[image-cache] Cached image could not be decoded; downloading again: ${url}`, error);
+                    database.transaction('images', 'readwrite').objectStore('images').delete(url);
+                }
+            }
+        } catch (error) {
+            if (!worldImageCacheWarningShown) {
+                worldImageCacheWarningShown = true;
+                console.warn('[image-cache] Persistent image cache is unavailable; using normal image loading.', error);
+            }
+        }
+
+        try {
+            const response = await fetch(url, { mode: 'cors', credentials: 'omit' });
+            if (!response.ok)
+                throw new Error(`Image request failed with status ${response.status}`);
+            const blob = await response.blob();
+            const image = await decodeCachedWorldImage(blob);
+            if (database) {
+                try {
+                    await writeCachedWorldImage(database, url, blob);
+                } catch (error) {
+                    if (!worldImageCacheWarningShown) {
+                        worldImageCacheWarningShown = true;
+                        console.warn('[image-cache] Could not save image for the next visit.', error);
+                    }
+                }
+            }
+            return image;
+        } catch (error) {
+            console.warn(`[image-cache] Cached fetch failed; falling back to regular image loading: ${url}`, error);
+            return getImageRawData([url])[0];
+        }
+    })();
+    worldImageLoads.set(url, imagePromise);
+    imagePromise.then(
+        () => worldImageLoads.delete(url),
+        () => worldImageLoads.delete(url)
+    );
+    return imagePromise;
 }
 
 function updateNodeLabels(is2d, time) {
