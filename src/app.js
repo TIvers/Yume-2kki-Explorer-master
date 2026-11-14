@@ -55,6 +55,7 @@ const nodeIconImgDimensions = { x: nodeImgDimensions.x / 4, y: nodeImgDimensions
 let nodeObjectMaterials = [];
 let worldTextureIds = [];
 let worldTextureIndexes = new Map();
+let lastPathNodeClick = null;
 let iconTexts = [];
 let removedCount;
 const worldScales = {};
@@ -2226,9 +2227,17 @@ function initGraph(renderMode, displayMode, paths) {
         })
         .onNodeClick((node, event) => {
             ['x', 'y'].concat(is2d ? [] : ['z']).forEach(d => node[`f${d}`] = node[d]);
-            if (config.explorationMode === 1 && event && event.detail >= 2) {
-                selectPathWorld(node.id);
-                return;
+            if (config.explorationMode === 1) {
+                const now = Date.now();
+                const isDoubleClick = (event && event.detail >= 2)
+                    || (lastPathNodeClick && lastPathNodeClick.id === node.id && now - lastPathNodeClick.time <= 500);
+                lastPathNodeClick = isDoubleClick ? null : { id: node.id, time: now };
+                if (isDoubleClick) {
+                    selectPathWorld(node.id);
+                    return;
+                }
+            } else {
+                lastPathNodeClick = null;
             }
             if (!node.hidden && (isCtrl || isShift))
                 openWorldWikiPage(node.id, isShift);
@@ -2388,8 +2397,6 @@ function updateNodeImageData(nodes, isSubset, is2d) {
 
     if (isSubset) {
         let index = 0;
-        let rIndex = 0;
-        const totalNodeCount = nodes.length;
         let nodeObject = nodeObjects[0];
 
         nodes.forEach(node => {
@@ -2400,11 +2407,9 @@ function updateNodeImageData(nodes, isSubset, is2d) {
             const textureIndex = worldTextureIndexes.get(node.id);
             if (textureIndex === undefined)
                 throw new Error(`Missing image texture for map ${node.id}`);
-            if (textureIndex === undefined)
-                throw new Error(`Missing image texture for map ${node.id}`);
-            copyImageData(nodeObject, textureIndex, index, 1);
+            copyImageData(nodeObject, textureIndex, actualIndex, 1);
             if (is2d) {
-                copyImageData(nodeObject, textureIndex + worldTextureIds.length, index + totalNodeCount, 1);
+                copyImageData(nodeObject, textureIndex + worldTextureIds.length, nodeObject.count + actualIndex, 1);
             }
             index++;
         });
@@ -4035,6 +4040,7 @@ function tempSelectVersion(versionIndex, ignoreChange) {
 
 function destroyGraph() {
     worldTextureLoadGeneration++;
+    lastPathNodeClick = null;
     worldImageAbortControllers.forEach(controller => controller.abort());
     worldImageAbortControllers.clear();
     worldImageLoads.clear();
@@ -4188,6 +4194,8 @@ function getPathWorldId() {
 
 function selectPathWorld(worldId) {
     if (!worldData[worldId])
+        return;
+    if (config.explorationMode === 1 && pathWorldId === worldId)
         return;
     pathWorldId = worldId;
     selectedWorldId = worldId;
