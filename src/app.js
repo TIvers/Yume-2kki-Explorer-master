@@ -53,6 +53,8 @@ let maxWorldDepth;
 const nodeImgDimensions = { x: 320, y: 240 };
 const nodeIconImgDimensions = { x: nodeImgDimensions.x / 4, y: nodeImgDimensions.y / 4 };
 let nodeObjectMaterials = [];
+let worldTextureIds = [];
+let worldTextureIndexes = new Map();
 let iconTexts = [];
 let removedCount;
 const worldScales = {};
@@ -75,6 +77,7 @@ let worldImageCacheDisabled = false;
 let worldImageCacheWarningShown = false;
 let worldImageMissingWarningShown = false;
 const worldImageLoads = new Map();
+const worldImageAbortControllers = new Map();
 
 const getLocalizedLabel = (enLabel, jaLabel, singleValue) => getLocalizedValue(enLabel, jaLabel, config.lang, singleValue);
 
@@ -1487,27 +1490,22 @@ function reloadData(update) {
 
         initLocalization();
 
-        if (isWebGL2) {
-            worldImageData = [];
-
-            initWorldTextures().then(() => {
-                initNodeObjectMaterials();
-                reloadGraph();
-                loadCallback();
-            }).catch(err => console.error(err));
-        } else {
-            reloadGraph();
-            loadCallback();
-        }
+        worldImageData = [];
+        reloadGraph(loadCallback);
     }, loadCallback);
 }
 
 export let graph;
 let graphResizeObserver;
+let graphBuildGeneration = 0;
 
 let contextWorldId = null, startWorldId = null, endWorldId = null, hoverWorldId = null, selectedWorldId = null, pathWorldId = null;
 let miniMapWindow = null;
 let miniMapFallback = null;
+let miniMapFallbackStylesheet = null;
+let miniMapStream = null;
+let miniMapStreamCanvas = null;
+let miniMapOverlayTimer = null;
 
 let searchWorldIds = [], visibleWorldIds = [];
 
@@ -2327,7 +2325,6 @@ function initGraph(renderMode, displayMode, paths) {
     })();
 
     if (isWebGL2) {
-        initNodeObjectMaterials();
         initNodeObjects(nodes.length, is2d);
         updateNodeImageData(nodes, paths, is2d);
         makeIconObject(is2d);
@@ -2400,9 +2397,14 @@ function updateNodeImageData(nodes, isSubset, is2d) {
             let actualIndex = index % glMaxTextureSize;
             nodeObject = nodeObjects[chunkId];
 
-            copyImageData(nodeObject, node.id, index, 1);
+            const textureIndex = worldTextureIndexes.get(node.id);
+            if (textureIndex === undefined)
+                throw new Error(`Missing image texture for map ${node.id}`);
+            if (textureIndex === undefined)
+                throw new Error(`Missing image texture for map ${node.id}`);
+            copyImageData(nodeObject, textureIndex, index, 1);
             if (is2d) {
-                copyImageData(nodeObject, node.id + worldData.length, index + totalNodeCount, 1);
+                copyImageData(nodeObject, textureIndex + worldTextureIds.length, index + totalNodeCount, 1);
             }
             index++;
         });
@@ -2418,7 +2420,7 @@ function updateNodeImageData(nodes, isSubset, is2d) {
             let offsetFrom = chunkOffset * dataLength;
             let offsetTo = offsetFrom + chunkSize * dataLength;
 
-            obj.material.uniforms.diffuse.value.image.data.set(worldImageData.slice(offsetFrom, offsetTo), 0);
+            obj.material.uniforms.diffuse.value.image.data.set(worldImageData.subarray(offsetFrom, offsetTo), 0);
             if (is2d)
                 copyImageData(obj, chunkOffset + amount, chunkSize, chunkSize);
             id++;
@@ -2433,7 +2435,7 @@ function copyImageData(nodeObject, from, to, amount) {
     const dataLength = nodeImgDimensions.x * nodeImgDimensions.y * 4;
     let offsetFrom = from * dataLength;
     let offsetTo = to * dataLength;
-    nodeObject.material.uniforms.diffuse.value.image.data.set(worldImageData.slice(offsetFrom, offsetFrom + amount * dataLength), offsetTo);
+    nodeObject.material.uniforms.diffuse.value.image.data.set(worldImageData.subarray(offsetFrom, offsetFrom + amount * dataLength), offsetTo);
 }
 
 const instanceVS = `precision highp float;
@@ -2807,7 +2809,10 @@ function sortIconInstances(instanceObject, unsortedOpacities, unsortedGrayscales
 }
 
 function initWorldTextures() {
-    const amount = worldData.length;
+    const textureWorldIds = getGraphTextureWorldIds();
+    const amount = textureWorldIds.length;
+    worldTextureIds = textureWorldIds;
+    worldTextureIndexes = new Map(textureWorldIds.map((worldId, index) => [worldId, index]));
     const dataLength = nodeImgDimensions.x * nodeImgDimensions.y * 4;
     worldImageData = new Uint8ClampedArray(dataLength * amount * 2 + dataLength);
     const generation = ++worldTextureLoadGeneration;
@@ -2824,7 +2829,8 @@ function initWorldTextures() {
 
     const renderWorldImage = (worldId, img, cachedImageData) => {
         const world = worldData[worldId];
-        const offset = worldId * dataLength;
+        const textureIndex = worldTextureIndexes.get(worldId);
+        const offset = textureIndex * dataLength;
         const offsetLabels = amount * dataLength;
 
         let nodeImageData;
@@ -2885,16 +2891,20 @@ function initWorldTextures() {
 
         ctx.drawImage(placeholder, 0, 0, placeholder.width, placeholder.height, 0, 0, nodeImgDimensions.x, nodeImgDimensions.y);
         const placeholderImageData = ctx.getImageData(0, 0, nodeImgDimensions.x, nodeImgDimensions.y);
-        for (let worldId = 0; worldId < amount; worldId++)
+        for (const worldId of textureWorldIds)
             renderWorldImage(worldId, placeholder, placeholderImageData);
 
-        const imageJobs = worldData
-            .map((world, worldId) => ({ worldId, filename: world.filename }))
+        const imageJobs = textureWorldIds
+            .map(worldId => ({ worldId, filename: worldData[worldId].filename }))
             .filter(job => !worldData[job.worldId].hidden);
         const loadedImages = [];
         let nextImageJob = 0;
         let activeImageJobs = 0;
         let updateScheduled = false;
+        const releaseImageDataIfReady = () => {
+            if (generation === worldTextureLoadGeneration && nextImageJob === imageJobs.length && activeImageJobs === 0 && loadedImages.length === 0)
+                worldImageData = new Uint8ClampedArray(0);
+        };
 
         const processLoadedImage = () => {
             updateScheduled = false;
@@ -2903,6 +2913,7 @@ function initWorldTextures() {
 
             const { worldId, image } = loadedImages.shift();
             startImageJobs();
+            imageLoader.uncache(worldData[worldId].filename);
             try {
                 renderWorldImage(worldId, image);
                 updateLoadedWorldTexture(worldId);
@@ -2911,6 +2922,8 @@ function initWorldTextures() {
             }
             if (loadedImages.length)
                 scheduleImageUpdate();
+            else
+                releaseImageDataIfReady();
         };
         const scheduleImageUpdate = () => {
             if (!updateScheduled) {
@@ -2933,8 +2946,11 @@ function initWorldTextures() {
                 startImageJobs();
             }).catch(err => {
                 activeImageJobs--;
+                if (generation !== worldTextureLoadGeneration)
+                    return;
                 console.error(`Failed to load image for ${worldData[worldId].title}`, err);
                 startImageJobs();
+                releaseImageDataIfReady();
             });
         };
 
@@ -2943,7 +2959,19 @@ function initWorldTextures() {
                 loadNextImage();
         };
         startImageJobs();
+        releaseImageDataIfReady();
     });
+}
+
+function getGraphTextureWorldIds() {
+    if (config.explorationMode !== 1)
+        return worldData.map(world => world.id);
+    const rootId = getPathWorldId();
+    if (rootId == null || !worldData[rootId])
+        return [];
+    const connectedIds = worldData[rootId].connections.map(connection => connection.targetId);
+    const visibleIds = new Set([rootId].concat(connectedIds));
+    return worldData.filter(world => visibleIds.has(world.id)).map(world => world.id);
 }
 
 function updateLoadedWorldTexture(worldId) {
@@ -2964,12 +2992,13 @@ function updateLoadedWorldTexture(worldId) {
         const textureProperties = renderer.properties.get(texture);
         const layerLength = nodeImgDimensions.x * nodeImgDimensions.y * 4;
         const baseOffset = localIndex * layerLength;
-        const imageData = worldImageData.subarray(worldId * layerLength, (worldId + 1) * layerLength);
+        const textureIndex = worldTextureIndexes.get(worldId);
+        const imageData = worldImageData.subarray(textureIndex * layerLength, (textureIndex + 1) * layerLength);
         texture.image.data.set(imageData, baseOffset);
         uploadWorldTextureLayer(renderer, texture, textureProperties, baseOffset / layerLength, imageData);
         if (is2d) {
             const labelOffset = (texture.image.depth / 2 + localIndex) * layerLength;
-            const labelSourceOffset = (worldData.length + worldId) * layerLength;
+            const labelSourceOffset = (worldTextureIds.length + textureIndex) * layerLength;
             const labelData = worldImageData.subarray(labelSourceOffset, labelSourceOffset + layerLength);
             texture.image.data.set(labelData, labelOffset);
             uploadWorldTextureLayer(renderer, texture, textureProperties, labelOffset / layerLength, labelData);
@@ -3006,8 +3035,13 @@ function uploadWorldTextureLayer(renderer, texture, textureProperties, layer, im
 }
 
 function initNodeObjectMaterials() {
-    const amount = worldData.length;
+    const amount = worldTextureIds.length;
     let nodeChunks = Math.trunc(amount / glMaxTextureSize);
+    nodeObjectMaterials.forEach(material => {
+        material.uniforms.diffuse.value.dispose();
+        material.dispose();
+    });
+    nodeObjectMaterials = [];
 
     for (let chunk = 0; chunk <= nodeChunks; chunk++) {
         let chunkOffset = chunk * glMaxTextureSize;
@@ -3033,7 +3067,7 @@ function initNodeObjectMaterials() {
         });
         let offsetFrom = chunkOffset * dataLength;
         let offsetTo = offsetFrom + chunkSize * 2 * dataLength;
-        nodeObjectMaterial.uniforms.diffuse.value.image.data.set(worldImageData.slice(offsetFrom, offsetTo), 0);
+        nodeObjectMaterial.uniforms.diffuse.value.image.data.set(worldImageData.subarray(offsetFrom, offsetTo), 0);
         nodeObjectMaterial.uniforms.diffuse.value.needsUpdate = true;
         nodeObjectMaterials[chunk] = nodeObjectMaterial;
     }
@@ -3065,9 +3099,9 @@ function initNodeObjects(amount, is2d) {
         const texIndexes = [];
 
         for (let i = 0; i < chunkSize; i++) {
-            const world = worldData[chunkOffset + i];
+            const world = graph.graphData().nodes[chunkOffset + i];
             opacities[i] = getNodeOpacity(world.id);
-            grayscales[i] = world.removed ? 1 : 0;
+            grayscales[i] = getNodeGrayscale(world);
             texIndexes[i] = i;
         }
 
@@ -3080,7 +3114,7 @@ function initNodeObjects(amount, is2d) {
         geometry.attributes.opacity = new THREE.InstancedBufferAttribute(new Float32Array(opacities), 1);
         geometry.attributes.grayscale = new THREE.InstancedBufferAttribute(new Float32Array(grayscales), 1);
         geometry.attributes.texIndex = new THREE.InstancedBufferAttribute(new Float32Array(texIndexes), 1);
-        let nodeObject = new THREE.InstancedMesh(geometry, nodeObjectMaterials[chunk], amount);
+        let nodeObject = new THREE.InstancedMesh(geometry, nodeObjectMaterials[chunk], chunkSize);
         nodeObject.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
         nodeObject.renderOrder = 1;
         nodeObjects[chunk] = nodeObject;
@@ -3089,11 +3123,12 @@ function initNodeObjects(amount, is2d) {
 }
 
 function getNodeChunkId(node) {
-    return Math.trunc(node.id / glMaxTextureSize);
+    const nodeIndex = graph.graphData().nodes.indexOf(node);
+    return Math.trunc(nodeIndex / glMaxTextureSize);
 }
 
 function getNodeIndexInChunk(node) {
-    return node.id % glMaxTextureSize;
+    return graph.graphData().nodes.indexOf(node) % glMaxTextureSize;
 }
 
 function updateNodePositions(is2d) {
@@ -3424,6 +3459,8 @@ function loadWorldImageWithCache(url, fallbackImage) {
     if (worldImageLoads.has(url))
         return worldImageLoads.get(url);
 
+    const controller = new AbortController();
+    worldImageAbortControllers.set(url, controller);
     const imagePromise = (async () => {
         let database;
         try {
@@ -3445,7 +3482,7 @@ function loadWorldImageWithCache(url, fallbackImage) {
         }
 
         try {
-            const response = await fetch(url, { mode: 'cors', credentials: 'omit' });
+            const response = await fetch(url, { mode: 'cors', credentials: 'omit', signal: controller.signal });
             if (response.status === 404) {
                 if (!worldImageMissingWarningShown) {
                     worldImageMissingWarningShown = true;
@@ -3469,14 +3506,26 @@ function loadWorldImageWithCache(url, fallbackImage) {
             }
             return image;
         } catch (error) {
+            if (controller.signal.aborted)
+                throw error;
             console.warn(`[image-cache] Cached fetch failed; falling back to regular image loading: ${url}`, error);
             return getImageRawData([url])[0];
         }
     })();
     worldImageLoads.set(url, imagePromise);
     imagePromise.then(
-        () => worldImageLoads.delete(url),
-        () => worldImageLoads.delete(url)
+        () => {
+            if (worldImageLoads.get(url) === imagePromise)
+                worldImageLoads.delete(url);
+            if (worldImageAbortControllers.get(url) === controller)
+                worldImageAbortControllers.delete(url);
+        },
+        () => {
+            if (worldImageLoads.get(url) === imagePromise)
+                worldImageLoads.delete(url);
+            if (worldImageAbortControllers.get(url) === controller)
+                worldImageAbortControllers.delete(url);
+        }
     );
     return imagePromise;
 }
@@ -3532,6 +3581,8 @@ function updateNodeLabels(is2d, time) {
 }
 
 function getNodeOpacity(id) {
+    if (config.explorationMode === 1)
+        return 1;
     const author = tempSelectedAuthor || selectedAuthor;
     const versionIndex = tempSelectedVersionIndex || selectedVersionIndex;
     const filterForAuthor = author != null && worldData[id].author !== author;
@@ -3546,6 +3597,8 @@ function getNodeOpacity(id) {
 }
 
 function getNodeGrayscale(node) {
+    if (config.explorationMode === 1)
+        return 0;
     if (!node.removed)
         return 0;
 
@@ -3980,7 +4033,72 @@ function tempSelectVersion(versionIndex, ignoreChange) {
         $('.js--version').trigger('change');
 }
 
-function reloadGraph() {
+function destroyGraph() {
+    worldTextureLoadGeneration++;
+    worldImageAbortControllers.forEach(controller => controller.abort());
+    worldImageAbortControllers.clear();
+    worldImageLoads.clear();
+    stopPathMiniMapStream();
+    const hadGraph = !!graph;
+    if (graphResizeObserver) {
+        graphResizeObserver.disconnect();
+        graphResizeObserver = null;
+    }
+    document.removeEventListener('mousemove', onDocumentMouseMove, false);
+    const canvas = graph && graph.renderer().domElement;
+    if (canvas)
+        canvas.removeEventListener('wheel', clearTweens, false);
+    if (graph) {
+        graph.pauseAnimation();
+        graph._destructor();
+        const scene = graph.scene();
+        scene.traverse(object => {
+            if (object.geometry)
+                object.geometry.dispose();
+            const materials = Array.isArray(object.material) ? object.material : object.material ? [object.material] : [];
+            materials.forEach(material => {
+                if (material.uniforms) {
+                    Object.keys(material.uniforms).forEach(key => {
+                        const value = material.uniforms[key].value;
+                        if (value && value.isTexture)
+                            value.dispose();
+                    });
+                }
+                if (material.map)
+                    material.map.dispose();
+                material.dispose();
+            });
+        });
+        const controls = graph.controls();
+        if (controls && controls.dispose)
+            controls.dispose();
+        const renderer = graph.renderer();
+        renderer.dispose();
+        if (renderer.forceContextLoss)
+            renderer.forceContextLoss();
+        if (canvas)
+            canvas.remove();
+        graph = null;
+    }
+    document.getElementById('graph').replaceChildren();
+    nodeObjects = [];
+    nodeObjectMaterials = [];
+    iconObject = null;
+    nodeIconObject = null;
+    linksTwoWayBuffered = undefined;
+    linksOneWayBuffered = undefined;
+    visibleTwoWayLinks = [];
+    visibleOneWayLinks = [];
+    hiddenLinks = [];
+    if (isWebGL2 && hadGraph) {
+        graphCanvas = document.createElement('canvas');
+        graphContext = graphCanvas.getContext('webgl2');
+        if (!graphContext)
+            throw new Error('Unable to create the WebGL2 rendering context for the map graph');
+    }
+}
+
+function reloadGraph(onReady) {
     tempSelectAuthor(null, true);
     tempSelectVersion(0, true);
     const pathFinder = new PathFinder(worldData, isDebug, defaultPathIgnoreConnTypeFlags, false, effectsJP);
@@ -4004,36 +4122,57 @@ function reloadGraph() {
         }
     } else if (startWorld && endWorld && startWorld != endWorld)
         matchPaths = pathFinder.findPath(startWorld.id, endWorld.id, true, ConnType.NO_ENTRY | ConnType.DEAD_END | ConnType.ISOLATED | ConnType.SHORTCUT, config.pathMode === 0 ? 3 : config.pathMode === 1 ? 5 : 10);
-    if (graph)
-        graph._destructor();
-    initGraph(config.renderMode, config.displayMode, matchPaths);
-    updateRoutePanel(config.explorationMode === 1 ? null : matchPaths);
-    if (urlSearchParams.has('location')) {
-        const worldName = urlSearchParams.get('location');
-        const node = graph.graphData().nodes.find(n => worldData[n.id].title === worldName);
-        if (node) {
+    const generation = ++graphBuildGeneration;
+    destroyGraph();
+    const buildGraph = () => {
+        if (generation !== graphBuildGeneration)
+            return;
+        if (isWebGL2)
+            initNodeObjectMaterials();
+        initGraph(config.renderMode, config.displayMode, matchPaths);
+        updateRoutePanel(config.explorationMode === 1 ? null : matchPaths);
+        if (urlSearchParams.has('location')) {
+            const worldName = urlSearchParams.get('location');
+            const node = graph.graphData().nodes.find(n => worldData[n.id].title === worldName);
+            if (node) {
+                window.setTimeout(function () {
+                    if (graph)
+                        trySelectNode(node, true, true);
+                }, 2000);
+            }
+        } else if (locationMode) {
+            const camera = graph.camera();
+            camera.zoom = 10;
+            camera.updateProjectionMatrix();
+            const locationWorldIds = locationModeLocations.map(l => worldData.find(w => w.title === l)).filter(l => l).map(l => l.id);
+            const locationNodes = graph.graphData().nodes.filter(n => locationWorldIds.indexOf(n.id) > -1);
             window.setTimeout(function () {
-                trySelectNode(node, true, true);
-            }, 2000);
+                if (!graph || !locationNodes.length)
+                    return;
+                const avgPos = locationNodes.reduce((sumPos, node) => {
+                    sumPos.x += node.x;
+                    sumPos.y += node.y;
+                    return sumPos;
+                }, { x: 0, y: 0 });
+                avgPos.x /= locationNodes.length;
+                avgPos.y /= locationNodes.length;
+                graph.cameraPosition({ x: avgPos.x, y: avgPos.y, z: 1000 }, locationNodes[0], 1000);
+            }, 100);
         }
-    } else if (locationMode) {
-        const camera = graph.camera();
-        camera.zoom = 10;
-        camera.updateProjectionMatrix();
-        const locationWorldIds = locationModeLocations.map(l => worldData.find(w => w.title === l)).filter(l => l).map(l => l.id);
-        const locationNodes = graph.graphData().nodes.filter(n => locationWorldIds.indexOf(n.id) > -1);
-        window.setTimeout(function () {
-            const avgPos = locationNodes.reduce((sumPos, node) => {
-                sumPos.x += node.x;
-                sumPos.y += node.y;
-                return sumPos;
-            }, { x: 0, y: 0 });
-            avgPos.x /= locationNodes.length;
-            avgPos.y /= locationNodes.length;
-            graph.cameraPosition({ x: avgPos.x, y: avgPos.y, z: 1000 }, locationNodes[0], 1000);
-        }, 100);
+        refreshPathMiniMap();
+        if (onReady)
+            onReady();
+    };
+
+    if (isWebGL2) {
+        is2d = !config.renderMode;
+        return initWorldTextures().then(buildGraph).catch(error => {
+            console.error('Unable to load map images for the graph.', error);
+            if (onReady)
+                onReady();
+        });
     }
-    refreshPathMiniMap();
+    buildGraph();
 }
 
 function getPathWorldId() {
@@ -4069,63 +4208,118 @@ function escapeMiniMapText(value) {
     })[character]);
 }
 
-function renderPathMiniMap(container, worldId, isPictureInPicture) {
-    const world = worldData[worldId];
-    if (!container || !world)
-        return;
-    const label = getLocalizedLabel(world.title, world.titleJP);
-    const title = localizedMiniMap.title.replace('{WORLD}', escapeMiniMapText(label));
-    const connections = world.connections.filter(connection => worldData[connection.targetId]);
-    const radius = 82;
-    const center = 122;
-    const points = connections.map((connection, index) => {
-        const angle = -Math.PI / 2 + 2 * Math.PI * index / Math.max(connections.length, 1);
-        return {
-            connection,
-            x: center + Math.cos(angle) * radius,
-            y: center + Math.sin(angle) * radius,
-            label: getLocalizedLabel(worldData[connection.targetId].title, worldData[connection.targetId].titleJP)
-        };
-    });
-    const lines = points.map(point => {
-        const isOneWay = !!(point.connection.type & ConnType.ONE_WAY);
-        return `<line x1="${center}" y1="${center}" x2="${point.x}" y2="${point.y}"${isOneWay ? ' marker-end="url(#path-arrow)"' : ''} />`;
-    }).join('');
-    const nodes = points.map(point => {
-        const targetId = point.connection.targetId;
-        const titleText = escapeMiniMapText(point.label);
-        return `<g class="path-mini-node" data-world-id="${targetId}" tabindex="0" role="button"><title>${titleText}</title><circle cx="${point.x}" cy="${point.y}" r="5" /><text x="${point.x}" y="${point.y + 3}">›</text></g>`;
-    }).join('');
-    const fallbackNote = isPictureInPicture ? '' : `<div class="path-mini-fallback">${escapeMiniMapText(localizedMiniMap.fallback)}</div>`;
-    const closeButton = isPictureInPicture ? '' : `<button class="path-mini-close" type="button">${escapeMiniMapText(localizedMiniMap.close)}</button>`;
+function getPathMiniMapDocument() {
+    if (miniMapWindow && !miniMapWindow.closed)
+        return miniMapWindow.document;
+    return miniMapFallback && miniMapFallback.isConnected ? miniMapFallback.ownerDocument : null;
+}
 
-    container.innerHTML = `<section class="path-mini-shell"><header class="path-mini-header"><span>${title}</span>${closeButton}</header><svg class="path-mini-graph" viewBox="0 0 244 244" role="img" aria-label="${title}"><defs><pattern id="path-grid" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M 36 0 L 0 0 0 36" fill="none" stroke="#1b1e23" stroke-width="1" /></pattern><marker id="path-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#087db2" /></marker></defs><rect width="244" height="244" fill="#08090c" /><rect width="244" height="244" fill="url(#path-grid)" />${lines}${nodes}<g class="path-mini-root"><circle cx="${center}" cy="${center}" r="7" /><rect x="${center - 3}" y="${center - 3}" width="6" height="6" /></g></svg><footer class="path-mini-hint">${escapeMiniMapText(localizedMiniMap.hint)}</footer>${fallbackNote}</section>`;
-    container.querySelectorAll('.path-mini-node').forEach(node => {
-        node.addEventListener('dblclick', event => {
-            event.preventDefault();
-            selectPathWorld(parseInt(node.dataset.worldId, 10));
-        });
-        node.addEventListener('keydown', event => {
-            if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                selectPathWorld(parseInt(node.dataset.worldId, 10));
-            }
-        });
-    });
+function renderPathMiniMap(container, isPictureInPicture) {
+    if (!container)
+        return;
+    const closeButton = isPictureInPicture ? '' : `<button class="path-mini-close" type="button">${escapeMiniMapText(localizedMiniMap.close)}</button>`;
+    const fallbackNote = isPictureInPicture ? '' : `<div class="path-mini-fallback">${escapeMiniMapText(localizedMiniMap.fallback)}</div>`;
+    container.innerHTML = `<section class="path-mini-shell"><header class="path-mini-header"><span></span>${closeButton}</header><div class="path-mini-viewport"><video class="path-mini-video" autoplay muted playsinline></video><svg class="path-mini-overlay" aria-label="${escapeMiniMapText(localizedMiniMap.hint)}"></svg></div>${fallbackNote}</section>`;
     const close = container.querySelector('.path-mini-close');
     if (close)
         close.addEventListener('click', closePathMiniMap);
+    const overlay = container.querySelector('.path-mini-overlay');
+    overlay.addEventListener('dblclick', event => {
+        const node = event.target.closest('[data-world-id]');
+        if (node)
+            selectPathWorld(parseInt(node.dataset.worldId, 10));
+    });
+    overlay.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            const node = event.target.closest('[data-world-id]');
+            if (node) {
+                event.preventDefault();
+                selectPathWorld(parseInt(node.dataset.worldId, 10));
+            }
+        }
+    });
+    attachPathMiniMapStream();
+    updatePathMiniMapOverlay();
+    if (miniMapOverlayTimer)
+        clearInterval(miniMapOverlayTimer);
+    miniMapOverlayTimer = setInterval(updatePathMiniMapOverlay, 50);
+}
+
+function attachPathMiniMapStream() {
+    const doc = getPathMiniMapDocument();
+    if (!doc || !graph)
+        return;
+    const video = doc.querySelector('.path-mini-video');
+    const canvas = graph.renderer().domElement;
+    if (!video || !canvas || !canvas.captureStream)
+        throw new Error('Canvas capture is not supported for the map mini-window');
+    if (miniMapStreamCanvas !== canvas) {
+        if (miniMapStream)
+            miniMapStream.getTracks().forEach(track => track.stop());
+        miniMapStream = canvas.captureStream(30);
+        miniMapStreamCanvas = canvas;
+    }
+    if (video.srcObject !== miniMapStream) {
+        video.srcObject = miniMapStream;
+        video.play().catch(error => console.error('Unable to play the map mini-window stream.', error));
+    }
+}
+
+function updatePathMiniMapOverlay() {
+    const doc = getPathMiniMapDocument();
+    if (!doc || !graph)
+        return;
+    const worldId = getPathWorldId();
+    const root = worldData[worldId];
+    if (!root)
+        return;
+    const title = localizedMiniMap.title.replace('{WORLD}', getLocalizedLabel(root.title, root.titleJP));
+    const header = doc.querySelector('.path-mini-header span');
+    if (header)
+        header.textContent = title;
+    if (miniMapWindow && !miniMapWindow.closed)
+        miniMapWindow.document.title = title;
+
+    const overlay = doc.querySelector('.path-mini-overlay');
+    const video = doc.querySelector('.path-mini-video');
+    if (!overlay || !video)
+        return;
+    const width = graph.width();
+    const height = graph.height();
+    overlay.setAttribute('viewBox', `0 0 ${width} ${height}`);
+    overlay.setAttribute('preserveAspectRatio', 'none');
+    const nodes = graph.graphData().nodes.map(node => {
+        const position = graph.graph2ScreenCoords(node.x, node.y, node.z);
+        return `<circle class="path-mini-hit" data-world-id="${node.id}" cx="${position.x}" cy="${position.y}" r="16" tabindex="0"><title>${escapeMiniMapText(getLocalizedLabel(worldData[node.id].title, worldData[node.id].titleJP))}</title></circle>`;
+    }).join('');
+    overlay.innerHTML = nodes;
+    if (video.readyState >= 2 && video.videoWidth && video.videoHeight)
+        overlay.style.aspectRatio = `${video.videoWidth} / ${video.videoHeight}`;
 }
 
 function refreshPathMiniMap() {
-    const worldId = getPathWorldId();
-    if (miniMapWindow && !miniMapWindow.closed) {
-        renderPathMiniMap(miniMapWindow.document.getElementById('path-mini-container'), worldId, true);
-    } else if (miniMapFallback && miniMapFallback.isConnected)
-        renderPathMiniMap(miniMapFallback, worldId, false);
+    if (!miniMapWindow && !miniMapFallback)
+        return;
+    try {
+        attachPathMiniMapStream();
+        updatePathMiniMapOverlay();
+    } catch (error) {
+        console.error('Unable to refresh the map mini-window.', error);
+    }
+}
+
+function stopPathMiniMapStream() {
+    if (miniMapStream)
+        miniMapStream.getTracks().forEach(track => track.stop());
+    miniMapStream = null;
+    miniMapStreamCanvas = null;
 }
 
 function closePathMiniMap() {
+    if (miniMapOverlayTimer) {
+        clearInterval(miniMapOverlayTimer);
+        miniMapOverlayTimer = null;
+    }
     if (miniMapWindow && !miniMapWindow.closed)
         miniMapWindow.close();
     miniMapWindow = null;
@@ -4133,45 +4327,52 @@ function closePathMiniMap() {
         miniMapFallback.remove();
         miniMapFallback = null;
     }
+    if (miniMapFallbackStylesheet) {
+        miniMapFallbackStylesheet.remove();
+        miniMapFallbackStylesheet = null;
+    }
+    stopPathMiniMapStream();
 }
 
 async function openPathMiniMap() {
-    if (!worldData || !worldData.length) {
-        console.error('Cannot open the mini-map before world data has loaded.');
+    if (!worldData || !worldData.length || !graph) {
+        console.error('Cannot open the mini-map before the map graph has loaded.');
         return;
     }
-    if (miniMapWindow && !miniMapWindow.closed) {
+    if (miniMapWindow || miniMapFallback) {
         closePathMiniMap();
         return;
     }
-    if (miniMapFallback) {
-        closePathMiniMap();
-        return;
-    }
-    const worldId = getPathWorldId();
     if (window.documentPictureInPicture && window.documentPictureInPicture.requestWindow) {
         try {
-            miniMapWindow = await window.documentPictureInPicture.requestWindow({ width: 260, height: 292 });
-            miniMapWindow.document.title = localizedMiniMap.title.replace('{WORLD}', worldData[worldId].title);
+            miniMapWindow = await window.documentPictureInPicture.requestWindow({ width: 420, height: 320 });
             miniMapWindow.document.head.innerHTML = `<meta name="viewport" content="width=device-width, initial-scale=1"><style>${getPathMiniMapStyles()}</style>`;
             miniMapWindow.document.body.innerHTML = '<div id="path-mini-container"></div>';
             miniMapWindow.addEventListener('pagehide', () => {
                 miniMapWindow = null;
+                if (!miniMapFallback)
+                    closePathMiniMap();
             }, { once: true });
-            renderPathMiniMap(miniMapWindow.document.getElementById('path-mini-container'), worldId, true);
+            renderPathMiniMap(miniMapWindow.document.getElementById('path-mini-container'), true);
             return;
         } catch (error) {
             console.error('Unable to open the mini-map in Picture-in-Picture mode; showing it in the page instead.', error);
+            if (miniMapWindow && !miniMapWindow.closed)
+                miniMapWindow.close();
+            miniMapWindow = null;
         }
     }
     miniMapFallback = document.createElement('div');
     miniMapFallback.className = 'path-mini-fallback-window';
+    miniMapFallbackStylesheet = document.createElement('style');
+    miniMapFallbackStylesheet.textContent = getPathMiniMapStyles(true);
+    document.head.appendChild(miniMapFallbackStylesheet);
     document.body.appendChild(miniMapFallback);
-    renderPathMiniMap(miniMapFallback, worldId, false);
+    renderPathMiniMap(miniMapFallback, false);
 }
 
-function getPathMiniMapStyles() {
-    return 'html,body,#path-mini-container{width:100%;height:100%;margin:0;overflow:hidden;background:#08090c;color:#ddd;font:12px Verdana,sans-serif}.path-mini-shell{height:100%;display:flex;flex-direction:column;background:#08090c}.path-mini-header{height:28px;display:flex;align-items:center;justify-content:space-between;padding:0 8px;color:#ddd;background:#101217;white-space:nowrap;overflow:hidden}.path-mini-graph{display:block;width:100%;flex:1;min-height:0}.path-mini-graph line{stroke:#087db2;stroke-width:1}.path-mini-node{cursor:pointer;outline:none}.path-mini-node circle{fill:#07090d;stroke:#0a8dc8;stroke-width:1}.path-mini-node text{fill:#c8efff;font:bold 10px sans-serif;text-anchor:middle;pointer-events:none}.path-mini-node:hover circle,.path-mini-node:focus circle{fill:#087db2;stroke:#c8efff}.path-mini-root circle{fill:#f43246;stroke:#ff7482;stroke-width:1}.path-mini-root rect{fill:#f3a347}.path-mini-hint{padding:4px 8px;color:#aaa;text-align:center}.path-mini-fallback-window{position:fixed;z-index:2147483647;right:12px;bottom:12px;width:260px;height:292px;border:1px solid #3a404a;box-shadow:0 4px 18px #000b}.path-mini-fallback{padding:4px 8px;color:#e3c677;font-size:10px;text-align:center}.path-mini-close{margin-left:8px;color:#ddd;background:#282c33;border:1px solid #636a75;cursor:pointer}';
+function getPathMiniMapStyles(isFallback) {
+    return `${isFallback ? '' : 'html,body,#path-mini-container{width:100%;height:100%;margin:0;overflow:hidden;background:#08090c;color:#ddd;font:12px Verdana,sans-serif}'} .path-mini-shell{height:100%;display:flex;flex-direction:column;background:#08090c;color:#ddd;font:12px Verdana,sans-serif}.path-mini-header{height:28px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 8px;color:#ddd;background:#101217;white-space:nowrap;overflow:hidden}.path-mini-viewport{position:relative;flex:1;min-height:0;overflow:hidden}.path-mini-video,.path-mini-overlay{position:absolute;inset:0;width:100%;height:100%}.path-mini-video{object-fit:fill}.path-mini-overlay{pointer-events:none}.path-mini-hit{fill:transparent;stroke:transparent;pointer-events:all;cursor:pointer}.path-mini-hit:hover,.path-mini-hit:focus{stroke:#fff;stroke-width:2}.path-mini-fallback-window{position:fixed;z-index:2147483647;right:12px;bottom:12px;width:min(420px,80vw);height:min(320px,60vh);border:1px solid #3a404a;box-shadow:0 4px 18px #000b}.path-mini-fallback-window .path-mini-viewport{aspect-ratio:4/3}.path-mini-fallback{padding:3px 8px;color:#e3c677;font-size:10px;text-align:center}.path-mini-close{margin-left:8px;color:#ddd;background:#282c33;border:1px solid #636a75;cursor:pointer}`;
 }
 
 // --- Панель «Быстрые маршруты» в верхней панели: до 3 самых коротких маршрутов Карта 1 ➜ Карта 2 ➜ Карта 3 ---
@@ -5655,11 +5856,8 @@ function initControls() {
 
         const loadCallback = displayLoadingAnim($("#graphContainer"));
         const callback = function () {
-            if (worldData) {
-                initNodeObjectMaterials();
-                reloadGraph();
-                loadCallback();
-            }
+        if (worldData)
+            reloadGraph(loadCallback);
         };
 
         closeModals();
@@ -5667,9 +5865,7 @@ function initControls() {
         initLocalization();
         initVersionData();
 
-        if (isWebGL2)
-            initWorldTextures().then(() => callback()).catch(err => console.error(err));
-        else if (worldData)
+        if (worldData)
             callback();
     });
 
@@ -6755,14 +6951,6 @@ $(function () {
 
         isWebGL2 = graphContext != null;
 
-        if (isWebGL2) {
-            initWorldTextures().then(() => {
-                reloadGraph();
-                loadCallback();
-            }).catch(err => console.error(err));
-        } else {
-            reloadGraph();
-            loadCallback();
-        }
+        reloadGraph(loadCallback);
     }, loadCallback);
 });
